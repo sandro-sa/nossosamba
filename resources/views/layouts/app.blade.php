@@ -70,11 +70,11 @@
 						 
 					  </div> --}}
 						  
-					  <div>
+					  {{-- <div>
 							  
 						<a href="{{ route('login') }}" class="btn btn-danger" type="submit">Login</a>
 						  
-					  </div>
+					  </div> --}}
 						  
 				  </div>
 				  @endguest
