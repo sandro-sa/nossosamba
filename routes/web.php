@@ -21,8 +21,8 @@ use App\Http\Controllers\Web\App\ShowSingerMusicsController;
 Route::get('login',[LoginController::class,'showLoginForm'])->name('showLoginForm');
 Route::post('login',[LoginController::class,'login'])->name('login');
 Route::post('logout',[LoginController::class,'logout'])->name('logout');
-Route::get('register',[RegisterController::class,'showRegistrationForm'])->name('showRegistrationForm');
-Route::post('register',[RegisterController::class,'register'])->name('register');
+// Route::get('register',[RegisterController::class,'showRegistrationForm'])->name('showRegistrationForm');
+// Route::post('register',[RegisterController::class,'register'])->name('register');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/letra/{id}', [ShowMusicController::class, 'index']);

@@ -64,11 +64,11 @@
 				  @guest
 						
 				  <div class="d-flex ">
-					  <div>
+					  {{-- <div>
 						
 						<a href="{{ route('register') }}" class="btn btn-danger me-2" type="submit">Cadastre-se</a>
 						 
-					  </div>
+					  </div> --}}
 						  
 					  <div>
 							  
