@@ -25,6 +25,7 @@ Route::post('logout',[LoginController::class,'logout'])->name('logout');
 // Route::post('register',[RegisterController::class,'register'])->name('register');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
 Route::get('/letra/{id}', [ShowMusicController::class, 'index']);
 
 
