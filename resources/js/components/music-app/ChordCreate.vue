@@ -124,7 +124,7 @@ const state = reactive({
 const submit = (() => {
    const fields = {
         _method:'POST',
-        chord_name : capitalizeFirstLetter(state.title),
+        chord_name : state.title,
         chord_positions : state.lines,
     }
     return chordStore.insert(page, fields, config)
