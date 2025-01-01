@@ -190,6 +190,7 @@ const submit = (async () => {
         }
     })
     .catch((e) => {
+		console.log(e)
         returnCath(e);
     })
     .finally(() => isLoading.value = false);

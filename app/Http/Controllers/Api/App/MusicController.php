@@ -18,7 +18,7 @@ class MusicController extends Controller
 
         }catch(\Exception $e){
             throw new MusicException('Erro ao listar musicas');
-        } 
+        }
     }
     public function store(MusicRequest $request)
     {
