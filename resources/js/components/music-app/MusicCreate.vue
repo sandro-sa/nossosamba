@@ -8,7 +8,7 @@
 				<rhythm-create v-if="newRhythm"  :token_crsf="token_crsf" @sendMessageDad="messages"  @excuteLoadind="isLoading = !isLoading" @execute="execute"></rhythm-create>
 				<form @submit.prevent="submitForm">
 					<div class="row">
-
+						<input type="hidden" :value="token_crsf">
 						<div class="col-md-4">
 							<div class="row">
 								<div class="col-md-8">
@@ -175,6 +175,7 @@ const submit = (async () => {
 		chords: chords.value,
         
     }
+	console.log(fields)
     return store.insert(urls.api+'music', fields, config)
     .then((response) => {
         if(response.request.status === 200 || response.request.status === 201 ){
