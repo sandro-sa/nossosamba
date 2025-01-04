@@ -9,10 +9,8 @@ class ShowChordsController extends Controller
 {
     public function index()
     {
-    
-        $order = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-        $chords = Chord::orderByRaw("FIELD(chord_name, ?) ASC", [implode(',', $order)])->get();
-        
+        $chords = Chord::orderBy('chord_name', 'asc')->get();
+     
         if(!$chords){
             return view('error.not-found');
         }
