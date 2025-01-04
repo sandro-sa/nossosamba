@@ -25,47 +25,61 @@
             
             <div class="col-md-6 d-flex justify-content-center align-items-center">
                
-                <div class="chord-content m-0 p-0">
-                    <h5 class="text-center m-0 p-0 ps-3 "><b>Previa</b></h5>
+                <div class="chord-content m-0 p-0 pb-2 ps-2 pe-2" style="background-color: white;">
+                    <h5 class="text-center m-0 p-0  "><b>Previa</b></h5>
                     <p class="m-0 p-0 text-center ps-3"><b>{{ state.title }}</b></p>
-                    <div class="line l1">
-                        <span class="note2" v-for="(filed, index) in state.lines[0]" :key="'l1-' + index">
-                            <span v-if="index == 'line_1_position_1'" class="note2">{{ filed }}</span><span v-else class="note">{{ filed }}</span>
-                        </span>
+
+
+                    <div >
+                        <template  v-for="(filed, index) in state.lines[0]" :key="'l1-' + index">
+                            <span v-if="index == 'line_1_position_1'" class="field-1 p-0 m-0">{{ filed }}</span><span  v-else class="field-2 p-0 m-0" ><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                        </template>
+                        <span  class="field-11 p-0 m-0"></span>
                     </div>
-                    <div class="line l2">
-                        <span class="note2" v-for="(filed, index) in state.lines[1]" :key="'l2-' + index">
-                            <span v-if="index == 'line_2_position_1'" class="note2">{{ filed }}</span><span v-else class="note">{{ filed }}</span>
-                        </span>
+
+                    <div >
+                        <template   v-for="(filed, index) in state.lines[1]"  :key="'l2-' + index">
+                            <span v-if="index == 'line_2_position_1'"class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-4 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                        </template>
+                        <span  class="field-11 p-0 m-0"></span>
                     </div>
-                    <div class="line l3">
-                        <span class="note2" v-for="(filed, index) in state.lines[2]" :key="'l3-' + index">
-                            <span v-if="index == 'line_3_position_1'" class="note2">{{ filed }}</span><span v-else class="note">{{ filed }}</span>
-                        </span>
+
+                    <div >
+                        <template  v-for="(filed, index) in state.lines[2]"  :key="'l3-' + index">
+                            <span v-if="index == 'line_3_position_1'" class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-6 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                        </template>
+                        <span  class="field-11 p-0 m-0"></span>
                     </div>
-                    <div class="line l4">
-                        <span class="note2" v-for="(filed, index) in state.lines[3]" :key="'l4-' + index">
-                            <span v-if="index == 'line_4_position_1'" class="note2">{{ filed }}</span><span v-else class="note">{{ filed }}</span>
-                        </span>
+
+                    <div >
+                        <template  v-for="(filed, index) in state.lines[3]" :key="'l4-' + index">
+                            <span v-if="index == 'line_4_position_1'" class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-8 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                        </template>
+                        <span  class="field-11 p-0 m-0"></span>
                     </div>
-                    <div class="line l5">
-                        <span class="note2" v-for="(filed, index) in state.lines[4]" :key="'l5-' + index">
-                            <span v-if="index == 'line_5_position_1'" class="note2">{{ filed }}</span><span v-else class="note">{{ filed }}</span>
-                        </span>
+
+                    <div>
+                        <template  v-for="(filed, index) in state.lines[4]"  :key="'l5-' + index">
+                            <span v-if="index == 'line_5_position_1'" class="field-1 p-0 m-0">{{ filed}}</span><span v-else class="field-10 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 1000; background-color: white;"></i></span>
+                        </template>
+                        <span  class="field-11 p-0 m-0"></span>
                     </div>
+                        
                 </div>
-            
             </div>
         </div>
     </div>
 
     <template v-if="chords">
-        <h1 class="text-center mt-5">Lista de acordes</h1>
-    
-        <chords-list-wrap :token_crsf="token_crsf" :chords="chords" :delete="true" @deleteSuccess="deleteChord"></chords-list-wrap>
+        <div class="container pt-20px" style="background-color: white;">
+            <h1 class="text-center mt-5">Lista de acordes</h1>
+            <chords-list-wrap :token_crsf="token_crsf" :chords="chords" :delete="true" @deleteSuccess="deleteChord"></chords-list-wrap>
+
+    </div>
 
     </template>
 </template>
+
 
 <script setup>
 import { reactive, onMounted, ref, getCurrentInstance } from 'vue';
@@ -175,39 +189,103 @@ onMounted(() => execute() );
     font-family: monospace;
 }
 
-.note {
-    width: 1.3em;
-    height: 1.5em;
-    font-weight: bold;
+.field-2,
+.field-4,
+.field-6,
+.field-8,
+.field-11,
+.field-10 {
+    width: 1.2em;
+    height: 1.8em;
+    font-weight: normal;
     font-family: sans-serif;
-    font-size: larger;
-    border-top: #f80303 1px solid; /* Mantém a borda superior da célula */
+    font-size: 1em;
     display: inline-block;
     text-align: center;
     vertical-align: middle;
-    position: relative; /* Necessário para o posicionamento da line */
-    overflow: hidden; /* Garante que a line não ultrapasse as extremidades */
-}
-.note::before {
-    content: "";
-    position: absolute;
-    top: 0; /* Começa a line no topo da célula */
-    bottom: 0; /* Faz a line cobrir a célula sem ultrapassar */
-    left: 50%; /* Centraliza a line na horizontal */
-    width: 1px; /* Largura da line */
-    background-color: #289c0b; /* Cor da line */
-    transform: translateX(-50%); /* Ajusta o centro exato da line */
-}
-.note2 {
-    width: 1.0em;
-    height: 1.5em;
-    display: inline-block;
-    text-align: center;
-    vertical-align: middle;
-    margin: 0px;
-    padding: 0px;
+    position: relative;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
 }
 
+.field-2::before,
+.field-4::before,
+.field-6::before,
+.field-8::before,
+.field-10::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 0.3px; /* A linha para representar a corda */
+    background-color: #070707; /* Cor da linha da corda */
+    transform: translateX(-50%);
+}
+
+/* Ajustando o ícone para ficar sobre a linha */
+.field-2 i,
+.field-4 i,
+.field-6 i,
+.field-8 i,
+.field-10 i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centraliza o ícone em relação à linha */
+    z-index: 1; /* Certifica que o ícone fica sobre a linha */
+    pointer-events: none; /* Impede que o ícone interfira com a interação do usuário com outros elementos */
+    padding: 1px;
+    
+}
+.field-1,
+.field-3,
+.field-5,
+.field-7,
+.field-9 {
+    width: 1.2em;
+    height: 1.8em;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #f7f7f7; /* Cor neutra para representar casas vazias */
+    border-radius: 3px;
+}
+
+i{
+    font: 0.8em sans-serif;
+    background-color: white;
+}
+
+.field-2 {
+    border: none;
+    border-radius: 0px;
+    border-top: #b18989 2px solid;
+}
+
+.field-4,
+.field-6,
+.field-8 {
+    border: none;
+    border-radius: 0px;
+    border-top: #b18989 1px solid;
+}
+
+.field-10 {
+    border: none;
+    border-radius: 0px;
+    border-top: #b18989 1px solid;
+    border-bottom: #b18989 2px solid;
+}
+
+.field-1 {
+    border-radius: 0px;
+    border-right: #b18989 2px solid;
+}
+
+.field-11 {
+    border-left: #b18989 2px solid;
+}
 input{
     background-color: white;
 }

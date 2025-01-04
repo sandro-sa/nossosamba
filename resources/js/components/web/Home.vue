@@ -1,16 +1,25 @@
 <template>
 	<alert-loading :msg="msg" :isLoading="isLoading" :alert="alert"></alert-loading>
-	<div class="container">
+	<div class="container" >
 		<div class="d-flex flex-wrap">
       		<template v-for="singer in singers" :key="singer.id">
-				<div class="dropdown m-1">
-					<button class="btn btn-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-						<i v-if="singer.musics" class="bi bi-music-note-list me-2"></i> {{ singer.singer_name }} 
-					</button>
-					<ul class="dropdown-menu" v-for="music in singer.musics" :key="singer.id">
-						<li><a class="dropdown-item" :href="pageMusic+music.id">{{ music.music_name }}</a></li>
-					</ul>
-				</div>
+            <template v-if="!singer.musics">
+              <div class="dropdown m-1 ">
+                <button class="btn btn btn-secondary text-start "type="button">{{ singer.singer_name }}</button>
+
+              </div>
+            </template>
+            <template v-else >
+              <div class="dropdown m-1">
+                  <button class="btn  btn-primary text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i  class="bi bi-music-note-list me-2"></i> {{ singer.singer_name }} 
+                  </button>
+                  <ul class="dropdown-menu" v-for="music in singer.musics" :key="singer.id">
+                    <li><a class="dropdown-item" :href="pageMusic+music.id">{{ music.music_name }}</a></li>
+                  </ul>
+              </div>
+            </template>
+			
 			</template>
 		</div>
 	</div>
@@ -28,7 +37,7 @@ const isLoading = ref(false);
 const alert = ref(false);
 const msg = ref(false);
 const singers = ref(null);
-const page = urls.api+'singer';
+const page = urls.api+'all_singer';
 const pageMusic = urls.url+'letra/';
 
 const config = {
@@ -37,6 +46,7 @@ const config = {
        'Accept': 'application/json',
    }
 };
+
 const messages = ((text, type ) => {
     msg.value = text;
     alert.value = type;
@@ -44,6 +54,7 @@ const messages = ((text, type ) => {
         resetMessages();
     }, 2000)
 });
+
 const resetMessages = (( ) => {
     msg.value = false;
     alert.value = false;
@@ -70,6 +81,8 @@ const returnCath = ((e) => {
 onMounted(() => {
 	execute();
 });
+
+
 </script>
 <style scoped>
   .quill-editor {
@@ -79,19 +92,37 @@ onMounted(() => {
   input, select{
 	background-color: white;
   }
-  .btn{
+  .btn-primary{
     width: 200px;
     background-color: #0d6efd;
     color: white;
+    padding-left: 20px;
   }
-  .btn:hover{
+  .btn-primary:hover{
     width: 200px;
     background-color: #0e5bce;
     color: white;
   }
+  .btn-secondary{
+    width: 200px;
+    border-color: #a4abb4;
+    background-color: #a4abb4;
+    color: white;
+    padding-left: 20px;
+  }
+
   .dropdown-menu{
     background-color: aliceblue;
     min-width: 200px;
   }
+
+  @media only screen and (max-width: 600px) {
+
+    .flex-wrap{
+      display: flex;
+      justify-content: center;
+    }
+	}
+
 </style>
   

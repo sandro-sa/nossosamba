@@ -80,4 +80,7 @@ app.component('home-list', Home);
 import ShowMusic from './components/web/ShowMusic.vue';
 app.component('show-music', ShowMusic);
 
+import ShowChord from './components/web/ShowChord.vue';
+app.component('show-chord', ShowChord)
+
 app.mount('#app');

@@ -32,8 +32,12 @@
 				@endauth
 				
               	<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item">
+							<a  class="nav-link " aria-current="page" href="{{route('chord')}}">Cifras</a>
+						</li>
 					@auth
-						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						
 							<li class="nav-item">
 								<a  class="nav-link " aria-current="page" href="#">Repertórios</a>
 							</li>
@@ -52,13 +56,17 @@
 							<li class="nav-item">
 								<a class="nav-link @if($url ==  'ritimo' )active @endif" href="{{route('ritimo')}}">Ritímo</a>
 							</li>
-						</ul>
-						<form class="d-flex" action="{{ route('logout') }}" method="POST">
-							@csrf
-							<button class="btn btn-danger" type="submit">Sair</button>
-						</form>
+						
+						
 					@endauth
-					
+				</ul>
+
+					@auth
+					<form class="d-flex" action="{{ route('logout') }}" method="POST">
+						@csrf
+						<button class="btn btn-danger" type="submit">Sair</button>
+					</form>
+					@endauth
 					
               	</div>
 				  @guest

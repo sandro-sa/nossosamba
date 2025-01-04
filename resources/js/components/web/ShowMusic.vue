@@ -22,32 +22,43 @@
 					   <div class="chord-content m-0 p-0 pb-2 ps-2 d-flex">
                            <template v-for="(position , index) in  convertForArray(chord['chord_positions'])" :key="index">
                            
-                               <div class="box m-0 me-2">
-                               <div class="line l1">
-                                   <span class="field2" v-for="(filed, index) in position[0]" :key="'l1-' + index">
-                                       <span v-if="index == 'line_1_position_1'" class="field2"><span class="field-text">{{ filed }}</span></span><span v-else class="field"><span class="field-text">{{ filed }}</span></span>
-                                   </span>
-                               </div>
-                               <div class="line l2">
-                                   <span class="field2"  v-for="(filed, index) in position[1]"  :key="'l2-' + index">
-                                       <span v-if="index == 'line_2_position_1'"class="field2"><span class="field-text">{{ filed }}</span></span><span v-else class="field"><span class="field-text">{{ filed }}</span></span>
-                                   </span>
-                               </div>
-                               <div class="line l3">
-                                   <span class="field2" v-for="(filed, index) in position[2]"  :key="'l3-' + index">
-                                       <span v-if="index == 'line_3_position_1'" class="field2"><span class="field-text">{{ filed }}</span></span><span v-else class="field"><span class="field-text">{{ filed }}</span></span>
-                                   </span>
-                               </div>
-                               <div class="line l4">
-                                   <span class="field2"  v-for="(filed, index) in position[3]" :key="'l4-' + index">
-                                       <span v-if="index == 'line_4_position_1'" class="field2"><span class="field-text">{{ filed }}</span></span><span v-else class="field"><span class="field-text">{{ filed }}</span></span>
-                                   </span>
-                               </div>
-                               <div class="line l5">
-                                   <span class="field2"  v-for="(filed, index) in position[4]"  :key="'l5-' + index">
-                                       <span v-if="index == 'line_5_position_1'" class="field2"><span class="field-text">{{ filed }}</span></span><span v-else class="field"><span class="field-text">{{ filed }}</span></span>
-                                   </span>
-                               </div>
+                            <div class="box ">
+
+                                <div >
+                                    <template  v-for="(filed, index) in position[0]" :key="'l1-' + index">
+                                        <span v-if="index == 'line_1_position_1'" class="field-1 p-0 m-0">{{ filed }}</span><span  v-else class="field-2 p-0 m-0" ><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                                    </template>
+                                    <span  class="field-11 p-0 m-0"></span>
+                                </div>
+
+                                <div >
+                                    <template   v-for="(filed, index) in position[1]"  :key="'l2-' + index">
+                                        <span v-if="index == 'line_2_position_1'"class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-4 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                                    </template>
+                                    <span  class="field-11 p-0 m-0"></span>
+                                </div>
+
+                                <div >
+                                    <template  v-for="(filed, index) in position[2]"  :key="'l3-' + index">
+                                        <span v-if="index == 'line_3_position_1'" class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-6 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                                    </template>
+                                    <span  class="field-11 p-0 m-0"></span>
+                                </div>
+
+                                <div >
+                                    <template  v-for="(filed, index) in position[3]" :key="'l4-' + index">
+                                        <span v-if="index == 'line_4_position_1'" class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-8 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                                    </template>
+                                    <span  class="field-11 p-0 m-0"></span>
+                                </div>
+
+                                <div>
+                                    <template  v-for="(filed, index) in position[4]"  :key="'l5-' + index">
+                                        <span v-if="index == 'line_5_position_1'" class="field-1 p-0 m-0">{{ filed}}</span><span v-else class="field-10 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 1000; background-color: white;"></i></span>
+                                    </template>
+                                    <span  class="field-11 p-0 m-0"></span>
+                                </div>
+                                        
                            </div>
                            
                        </template>
@@ -128,7 +139,7 @@ const enableDynamicTooltip = (element, chord) => {
 	z-index: 9000;
 }
 .chord-content {
-	padding: 10px;
+	
     font-family: monospace;
 }
 
@@ -140,43 +151,73 @@ const enableDynamicTooltip = (element, chord) => {
     font-size: 0.9em;
     font-weight: 800;
 }
-.box{
-    border: 2px solid rgb(110, 107, 107);
-    padding: 10px 13px 10px 0px;
-    
-}
-.field {
-	width: 1.3em;
-    height: 2em;
+
+.field-2,.field-4,.field-6,.field-8,.field-10,.field-11 {
+    width: 1em;
+    height: 1.8em;
     font-weight: normal;
     font-family: sans-serif;
-    font-size: .8em;
-    border-top: #f80303 1px solid; /* Mantém a borda superior da célula */
+    font-size: 1em;
     display: inline-block;
     text-align: center;
     vertical-align: middle;
-    position: relative; /* Necessário para o posicionamento da line */
-    overflow: hidden; 
-  
+    position: relative;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
 }
-.field::before {
-	content: "";
+
+.field-2::before,.field-4::before,.field-6::before,.field-8::before,.field-10::before {
+    content: "";
     position: absolute;
-    top: 0; /* Começa a line no topo da célula */
-    bottom: 0; /* Faz a line cobrir a célula sem ultrapassar */
-    left: 55%; /* Centraliza a line na horizontal */
-    width: 1px; /* Largura da line */
-    background-color: #289c0b; /* Cor da line */
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 0.3px; /* A linha para representar a corda */
+    background-color: #070707; /* Cor da linha da corda */
     transform: translateX(-50%);
 }
-.field2 {
-	width: 1em;
+
+.field-1,.field-3,.field-5,.field-7,.field-9 {
+    width: 1em;
+    height: 1.8em;
     display: inline-block;
     text-align: center;
     vertical-align: middle;
+    background-color: #f7f7f7; /* Cor neutra para representar casas vazias */
+    border-radius: 3px;
+}
+.field-2{
+    border: none;
+    border-radius: 0px;
+    border-top:#b18989 2px solid ;
+}
+
+.field-4,.field-6,.field-8{
+    border: none;
+    border-radius: 0px;
+    border-top:#b18989 1px solid ;
+}
+.field-10{
+    border: none;
+    border-radius: 0px;
+    border-top:#b18989 1px solid ;
+    border-bottom:#b18989 2px solid ;
+}
+
+.field-1 {
+    border-radius: 0px;
+    border-right:#b18989 2px solid ;
+   
+}
+.field-11{
     margin: 0px;
     padding: 0px;
-   
+    border-left:#b18989 2px solid ;
+}
+.box{
+    margin: 0px;
+    padding: 0px;
+    margin-right: 10px;
 }
 @media only screen and (max-width: 600px) {
     .all-chords{
