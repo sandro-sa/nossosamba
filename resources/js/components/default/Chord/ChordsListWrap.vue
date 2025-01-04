@@ -3,7 +3,9 @@
     <div  v-for=" chord in chords" :key="chord.id" >
         <div class="list-chord ">      
             <span v-for="(position , index) in  convertForArray(chord.chord_positions)" :key="index">
-                <div class="list-content m-0 p-0 mt-2 ">
+
+                <div class="list-content m-0 p-0 mt-2 me-1 ">
+                    
                     <div class="d-flex justify-content-center m-0 p-0 ">
                         <h6 class="m-0 p-0 text-center title">{{ chord.chord_name}}</h6>
                     </div>
@@ -117,10 +119,7 @@ const returnCath = ((e) => {
 
 .list-chord {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 10px;
+    flex-wrap: wrap;
 }
 
 .title {
