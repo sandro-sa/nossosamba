@@ -1,20 +1,20 @@
 <?php
 
 #use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Web\App\ToneController;
 use App\Http\Controllers\Web\App\ChordController;
 use App\Http\Controllers\Web\App\MusicController;
 use App\Http\Controllers\Web\App\RhythmController;
 use App\Http\Controllers\Web\App\SingerController;
-use App\Http\Controllers\Web\Web\ShowMusicController;
-use App\Http\Controllers\Web\Web\ShowChordsController;
+use App\Http\Controllers\Web\AppWeb\HomeController;
 use App\Http\Controllers\Web\App\CreateMusicController;
+use App\Http\Controllers\Web\AppWeb\ShowMusicController;
+use App\Http\Controllers\Web\AppWeb\ShowChordsController;
 use App\Http\Controllers\Web\App\ShowSingerMusicController;
 use App\Http\Controllers\Web\App\ShowSingerMusicsController;
-
 
 //Auth::routes();
 

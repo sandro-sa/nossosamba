@@ -1,6 +1,6 @@
 <?php
 
-namespace  App\Http\Controllers\Web\Web;
+namespace App\Http\Controllers\Web\AppWeb;
 
 use App\Models\Music\Chord;
 use App\Http\Controllers\Controller;
