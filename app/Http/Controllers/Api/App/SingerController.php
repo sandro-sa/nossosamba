@@ -13,7 +13,7 @@ class SingerController extends Controller
     public function index()
     {
         try{
-            $singers = Singer::with('musics')->get();
+            $singers = Singer::with('musics')->orderBy('singer_name')->get();
             return SingerResource::collection($singers);
         }catch(\Exception $e){
             throw new MusicException("Erro ao listar musicos.");

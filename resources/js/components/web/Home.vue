@@ -14,8 +14,10 @@
                   <button class="btn  btn-primary text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i  class="bi bi-music-note-list me-2"></i> {{ singer.singer_name }} 
                   </button>
-                  <ul class="dropdown-menu" v-for="music in singer.musics" :key="singer.id">
-                    <li><a class="dropdown-item" :href="pageMusic+music.id">{{ music.music_name }}</a></li>
+                  <ul class="dropdown-menu">
+                    <template  v-for="music in singer.musics" :key="music.id">
+                      <li><a class="dropdown-item" :href="pageMusic+music.id">{{ music.music_name }}</a></li>
+                    </template>
                   </ul>
               </div>
             </template>
