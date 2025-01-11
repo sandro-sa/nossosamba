@@ -25,16 +25,16 @@
         <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
             <div class="container-fluid">
 				<a class="navbar-brand" href="{{route('home')}}">Nosso samba</a>
-				@auth
+				
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
               	</button>
-				@endauth
+				
 				
               	<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 						<li class="nav-item">
-							<a  class="nav-link " aria-current="page" href="{{route('chord')}}">Cifras</a>
+							<a  class="nav-link @if($url ==  'chord' ) active @endif"  aria-current="page"  href="{{route('chord')}}">Cifras</a>
 						</li>
 					@auth
 						
@@ -59,6 +59,7 @@
 						
 						
 					@endauth
+
 				</ul>
 
 					@auth
@@ -69,23 +70,7 @@
 					@endauth
 					
               	</div>
-				  @guest
-						
-				  <div class="d-flex ">
-					  {{-- <div>
-						
-						<a href="{{ route('register') }}" class="btn btn-danger me-2" type="submit">Cadastre-se</a>
-						 
-					  </div> --}}
-						  
-					  {{-- <div>
-							  
-						<a href="{{ route('login') }}" class="btn btn-danger" type="submit">Login</a>
-						  
-					  </div> --}}
-						  
-				  </div>
-				  @endguest
+				
             </div>
 			
           </nav>

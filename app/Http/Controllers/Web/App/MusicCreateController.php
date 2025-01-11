@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web\App;
 
 use App\Http\Controllers\Controller;
 
-class CreateMusicController extends Controller
+class MusicCreateController extends Controller
 {
     public function __construct()
     {
@@ -13,6 +13,6 @@ class CreateMusicController extends Controller
 
     public function index()
     {
-        return view('music-app.create-music');
+        return view('music-app.music-create');
     }
 }

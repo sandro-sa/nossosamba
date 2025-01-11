@@ -64,6 +64,9 @@ app.component('rhythm-update', RhythmUpdate);
 import MusicCreate from './components/music-app/MusicCreate.vue';
 app.component('music-create', MusicCreate);
 
+import MusicUpdate from './components/music-app/MusicUpdate.vue';
+app.component('music-update', MusicUpdate);
+
 
 
 import ShowSingerMusics from './components/music-app/ShowSingerMusics.vue';

@@ -120,9 +120,7 @@ const resetMessages = (( ) => {
     msg.value = false;
     alert.value = false;
 });
-const capitalizeFirstLetter = (string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-}
+
 
 const state = reactive({
   title: '',

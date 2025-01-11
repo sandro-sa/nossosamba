@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\App\RhythmController;
 use App\Http\Controllers\Api\App\SingerController;
 
 use App\Http\Controllers\Api\Web\AllSingersController;
-use App\Http\Controllers\Web\Web\ShowChordsController;
+use App\Http\Controllers\Web\AppWeb\ShowChordsController;
 use App\Http\Controllers\Api\App\ShowSingerMusicsController;
 
 

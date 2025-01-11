@@ -21,8 +21,9 @@
 						<td>{{ music['music_name'] }}</td>
 						 <td>{{ music['rhythm']['rhythm'] }}</td>
 						<td>{{ music['tone']['tone'] }}</td>
-                        <td class="p-1"><button class="btn"  type="button" @click="questionAlert(music)" style="color: red;"><i class="bi bi-trash"></i></button>
-						<button class="btn"  type="button" @click="showMusic(music)" style="color: blue;"><i class="bi bi-file-earmark-music-fill"></i></button>
+                        <td class="p-1"><button class="btn"  type="button" @click="questionAlert(music)" style="color: red;" title="Excluir"><i class="bi bi-trash"></i></button>
+						<button class="btn"  type="button" @click="showMusic(music)" style="color: blue;" title="Ver"><i class="bi bi-file-earmark-music-fill"></i></button>
+						<a :href="urls.url+'atualizar/'+music['id']" class="btn"  type="button" style="color: green;" title="Editar"><i class="bi bi-pen"></i></a>
                         </td> 
 						</tr> 
 						</template>

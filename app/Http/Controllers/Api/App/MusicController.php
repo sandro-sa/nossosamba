@@ -40,7 +40,7 @@ class MusicController extends Controller
         $fields = $request->validated();
         $music_validade = Music::where('music_name', $fields['music_name'])->first();
         if( $music_validade instanceof Music && $music_validade->id != (int)$id){
-            throw new MusicException('Musica já esta cadastrado.');
+            throw new MusicException('Musica já esta cadastrado. '.$music_validade->id.' - '.$id);
         }
         try{
             $music = Music::findOrFail($id);
