@@ -5,18 +5,18 @@
       		<template v-for="singer in singers" :key="singer.id">
             <template v-if="!singer.musics">
               <div class="dropdown m-1 ">
-                <button class="btn btn btn-secondary text-start "type="button">{{ reduceText(singer.singer_name) }}</button>
+                <button class="btn btn btn-secondary text-start "type="button" :title="singer.singer_name">{{ reduceText(singer.singer_name) }}</button>
 
               </div>
             </template>
             <template v-else >
               <div class="dropdown m-1">
-                  <button class="btn  btn-primary text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <button class="btn  btn-primary text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false" :title="singer.singer_name">
                     <i  class="bi bi-music-note-list me-2"></i> {{ reduceText(singer.singer_name) }} 
                   </button>
                   <ul class="dropdown-menu">
                     <template  v-for="music in singer.musics" :key="music.id">
-                      <li><a class="dropdown-item" :href="pageMusic+music.id">{{ music.music_name }}</a></li>
+                      <li :title="music.music_name"><a class="dropdown-item" :href="pageMusic+music.id">{{ reduceText(music.music_name, 20 )}}</a></li>
                     </template>
                   </ul>
               </div>
