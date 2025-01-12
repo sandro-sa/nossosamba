@@ -297,7 +297,8 @@ const processarTexto = (htmlContent) => {
     }
     return match;
 });   
-    if (!chords.value.includes(novoAcorde)) {
+    if (!chords.value.includes(novoAcorde) && novoAcorde !== '<br>') {
+
         chords.value.push(novoAcorde);
     }
 
