@@ -75,7 +75,7 @@ const execute = (async () => {
     .finally(() => isLoading.value = false);
 });
 
-const reduceText =  ((text, limit=13) => {
+const reduceText =  ((text, limit=18) => {
     if(text.length > limit){
         return text.substring(0, limit) + "...";
     }
