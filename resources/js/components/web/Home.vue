@@ -5,14 +5,14 @@
       		<template v-for="singer in singers" :key="singer.id">
             <template v-if="!singer.musics">
               <div class="dropdown m-1 ">
-                <button class="btn btn btn-secondary text-start "type="button">{{ singer.singer_name }}</button>
+                <button class="btn btn btn-secondary text-start "type="button">{{ reduceText(singer.singer_name) }}</button>
 
               </div>
             </template>
             <template v-else >
               <div class="dropdown m-1">
                   <button class="btn  btn-primary text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i  class="bi bi-music-note-list me-2"></i> {{ singer.singer_name }} 
+                    <i  class="bi bi-music-note-list me-2"></i> {{ reduceText(singer.singer_name) }} 
                   </button>
                   <ul class="dropdown-menu">
                     <template  v-for="music in singer.musics" :key="music.id">
@@ -73,6 +73,13 @@ const execute = (async () => {
         returnCath(e);
     })
     .finally(() => isLoading.value = false);
+});
+
+const reduceText =  ((text, limit=13) => {
+    if(text.length > limit){
+        return text.substring(0, limit) + "...";
+    }
+    return text;
 });
 
 const returnCath = ((e) => {
