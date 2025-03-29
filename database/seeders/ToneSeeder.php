@@ -12,11 +12,9 @@ class ToneSeeder extends Seeder
         DB::table('tones')->insert([
             [
                 'tone' => 'C',
-                
             ],
             [
                 'tone' => 'Cm',
-                
             ],
         ]);
     }

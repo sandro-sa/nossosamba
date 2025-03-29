@@ -29,38 +29,37 @@
                     <h5 class="text-center m-0 p-0  "><b>Previa</b></h5>
                     <p class="m-0 p-0 text-center ps-3"><b>{{ state.title }}</b></p>
 
-
                     <div >
-                        <template  v-for="(filed, index) in state.lines[0]" :key="'l1-' + index">
-                            <span v-if="index == 'line_1_position_1'" class="field-1 p-0 m-0">{{ filed }}</span><span  v-else class="field-2 p-0 m-0" ><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                        <template  v-for="(filed, index) in state.lines[1]" :key="'l1-' + index">
+                            <span v-if="index == 'coluna_1_corda_0'" class="field-1 p-0 m-0">{{ filed }}</span><span  v-else class="field-2 p-0 m-0" ><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
                         </template>
                         <span  class="field-11 p-0 m-0"></span>
                     </div>
 
                     <div >
-                        <template   v-for="(filed, index) in state.lines[1]"  :key="'l2-' + index">
-                            <span v-if="index == 'line_2_position_1'"class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-4 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                        <template   v-for="(filed, index) in state.lines[2]"  :key="'l2-' + index">
+                            <span v-if="index == 'coluna_2_corda_0'"class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-4 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
                         </template>
                         <span  class="field-11 p-0 m-0"></span>
                     </div>
 
                     <div >
-                        <template  v-for="(filed, index) in state.lines[2]"  :key="'l3-' + index">
-                            <span v-if="index == 'line_3_position_1'" class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-6 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                        <template  v-for="(filed, index) in state.lines[3]"  :key="'l3-' + index">
+                            <span v-if="index == 'coluna_3_corda_0'" class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-6 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
                         </template>
                         <span  class="field-11 p-0 m-0"></span>
                     </div>
 
                     <div >
-                        <template  v-for="(filed, index) in state.lines[3]" :key="'l4-' + index">
-                            <span v-if="index == 'line_4_position_1'" class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-8 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                        <template  v-for="(filed, index) in state.lines[4]" :key="'l4-' + index">
+                            <span v-if="index == 'coluna_4_corda_0'" class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-8 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
                         </template>
                         <span  class="field-11 p-0 m-0"></span>
                     </div>
 
                     <div>
-                        <template  v-for="(filed, index) in state.lines[4]"  :key="'l5-' + index">
-                            <span v-if="index == 'line_5_position_1'" class="field-1 p-0 m-0">{{ filed}}</span><span v-else class="field-10 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 1000; background-color: white;"></i></span>
+                        <template  v-for="(filed, index) in state.lines[5]"  :key="'l5-' + index">
+                            <span v-if="index == 'coluna_5_corda_0'" class="field-1 p-0 m-0">{{ filed}}</span><span v-else class="field-10 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 1000; background-color: white;"></i></span>
                         </template>
                         <span  class="field-11 p-0 m-0"></span>
                     </div>
@@ -74,12 +73,10 @@
         <div class="container pt-20px" style="background-color: white;">
             <h1 class="text-center mt-5">Lista de acordes</h1>
             <chords-list-wrap :token_crsf="token_crsf" :chords="chords" :delete="true" @deleteSuccess="deleteChord"></chords-list-wrap>
-
     </div>
 
     </template>
 </template>
-
 
 <script setup>
 import { reactive, onMounted, ref, getCurrentInstance } from 'vue';
@@ -125,11 +122,12 @@ const resetMessages = (( ) => {
 const state = reactive({
   title: '',
   lines: [
-    { line_1_position_1: '', line_1_position_2: '', line_1_position_3: '', line_1_position_4: '', line_1_position_5: '' },
-    { line_2_position_1: '', line_2_position_2: '', line_2_position_3: '', line_2_position_4: '', line_2_position_5: '' },
-    { line_3_position_1: '', line_3_position_2: '', line_3_position_3: '', line_3_position_4: '', line_3_position_5: '' },
-    { line_4_position_1: '', line_4_position_2: '', line_4_position_3: '', line_4_position_4: '', line_4_position_5: '' },
-    { line_5_position_1: '', line_5_position_2: '', line_5_position_3: '', line_5_position_4: '', line_5_position_5: '' }
+    { coluna_0_corda_0: '', coluna_0_corda_1: '', coluna_0_corda_2: '', coluna_0_corda_3: '', coluna_0_corda_4: '' },
+    { coluna_1_corda_0: '', coluna_1_corda_1: '', coluna_1_corda_2: '', coluna_1_corda_3: '', coluna_1_corda_4: '' },
+    { coluna_2_corda_0: '', coluna_2_corda_1: '', coluna_2_corda_2: '', coluna_2_corda_3: '', coluna_2_corda_4: '' },
+    { coluna_3_corda_0: '', coluna_3_corda_1: '', coluna_3_corda_2: '', coluna_3_corda_3: '', coluna_3_corda_4: '' },
+    { coluna_4_corda_0: '', coluna_4_corda_1: '', coluna_4_corda_2: '', coluna_4_corda_3: '', coluna_4_corda_4: '' },
+    { coluna_5_corda_0: '', coluna_5_corda_1: '', coluna_5_corda_2: '', coluna_5_corda_3: '', coluna_5_corda_4: '' }
   ]
 });
 

@@ -78,6 +78,11 @@
 					</div>
 
 					<div class="form-group">
+						<label for="composers">Compositores</label>
+						<input v-model="composers" type="text" class="form-control" id="composers" name="composers" placeholder="Compositor1, Compositor2, .....">
+					</div>
+
+					<div class="form-group">
 						<label for="music_name">Introdução</label>
 						<input v-model="introduction" type="text" class="form-control" id="introduction" name="introduction" placeholder="Introdução em cifras">
 					</div>
@@ -96,6 +101,8 @@
 				<div  v-if="music" class="container-music mt-5">
 					<h2 style="font-size: 1em; font-weight: bold;">{{ music_name }}</h2>
 					<span v-if="tone" style="font-size: 0.8em; font-weight: bold;">Tom: {{ tone.tone }}</span>
+					<br>
+					<span v-if="composers" style="font-size: 0.8em; font-weight: bold;">Compositor(es): {{ composers}}</span>
 					<br>
 					<p class="m-0 p-0" v-if="introduction" style="font-size: 0.8em; font-weight: bold;">Intro: {{ introduction }}</p>
 					<p class="m-0 p-0" v-if="chords" style="font-size: 0.8em; font-weight: bold;">Notas: | <span v-for="a , index in chords" :key="index">{{ a }} | </span></p>
@@ -132,10 +139,10 @@ const tone = ref(null);
 const rhythm = ref(null);
 const introduction = ref(null);
 const music_name = ref('');
+const composers = ref('');
 const music = ref(null);
 const editor = ref(null);
 const chords = ref([]);
-
 
 const config = {
    headers: {
@@ -171,6 +178,7 @@ const submit = (async () => {
 		rhythm_id: rhythm.value,
 		introduction: introduction.value,
 		music_name: music_name.value,
+		composers: composers.value,
 		music: music.value,
 		chords: chords.value,
         
@@ -222,11 +230,7 @@ const getSinger = (async () => {
         returnCath(e);
     })
 });
-const returnCath = ((e) => {
-	
-	const retornCatch = catchDefault(e);
-	messages(retornCatch[0],retornCatch[1])
-});
+
 const execute = (() => {
 	getSinger();
 	getTone();
@@ -315,7 +319,7 @@ const adicionarClasseAcorde = (texto) => {
     
     if (acorde.trim() && acorde !== " " && acorde !== "&nbsp;" && acorde !== "^") {
 		acorde = salvaAcordeArray(acorde);
-      	resultado += `<span class="acorde ${acorde} m-0 p-0">${acorde}</span>`;
+      	resultado += `<span class="acorde ${acorde} m-0 p-0 md-3">${acorde}</span>`;
 
     } else if (acorde === "^") {
       	resultado += '^'; 
@@ -349,6 +353,11 @@ const adicionarClasseAcorde = (texto) => {
 };
 
 
+const returnCath = ((e) => {
+	const retornCatch = catchDefault(e);
+	messages(retornCatch[0],retornCatch[1])
+});
+
 </script>
 <style scoped>
   .quill-editor {
@@ -366,6 +375,20 @@ const adicionarClasseAcorde = (texto) => {
 .line {
     line-height: 0.2; /* Não esta funcionado */
     margin: 0;
+}
+.btn-primary{
+	background-color: #a76f67;
+	border-color: #a76f67;
+	border-radius: 0px;
+}
+.btn-primary:hover{
+	background-color: #e2c4b9;
+	border-color: #e2c4b9;
+	color: #a76f67;
+}
+.btn-success{
+	background-color: #508570;
+	border-radius:0px;
 }
 </style>
   

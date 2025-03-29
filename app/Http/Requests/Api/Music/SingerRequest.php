@@ -16,6 +16,7 @@ class SingerRequest extends FormRequest
         return [
             "singer_name" => ["required"],
             "singer_type" => ["required"],
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
     public function messages(): array

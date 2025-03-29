@@ -11,36 +11,36 @@
                     </div>
 
                     <div >
-                        <template  v-for="(filed, index) in position[0]" :key="'l1-' + index">
-                            <span v-if="index == 'line_1_position_1'" class="list-field-1 p-0 m-0">{{ filed }}</span><span  v-else class="list-field-2 p-0 m-0" ><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 1000; "></i></span>
+                        <template  v-for="(filed, index) in position[1]" :key="'l1-' + index">
+                            <span v-if="index == 'coluna_1_corda_0'" class="list-field-1 p-0 m-0">{{ filed }}</span><span  v-else class="list-field-2 p-0 m-0 " ><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 1000; "></i></span>
                         </template>
                         <span  class="list-field-11 p-0 m-0"></span>
                     </div>
 
                     <div >
-                        <template   v-for="(filed, index) in position[1]"  :key="'l2-' + index">
-                            <span v-if="index == 'line_2_position_1'"class="list-field-1 p-0 m-0">{{ filed }}</span><span v-else class="list-field-4 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 1000; "></i></span>
+                        <template   v-for="(filed, index) in position[2]"  :key="'l2-' + index">
+                            <span v-if="index == 'coluna_2_corda_0'"class="list-field-1 p-0 m-0">{{ filed }}</span><span v-else class="list-field-4 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 1000; "></i></span>
                         </template>
                         <span  class="list-field-11 p-0 m-0"></span>
                     </div>
 
                     <div >
-                        <template  v-for="(filed, index) in position[2]"  :key="'l3-' + index">
-                            <span v-if="index == 'line_3_position_1'" class="list-field-1 p-0 m-0">{{ filed }}</span><span v-else class="list-field-6 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 1000; "></i></span>
+                        <template  v-for="(filed, index) in position[3]"  :key="'l3-' + index">
+                            <span v-if="index == 'coluna_3_corda_0'" class="list-field-1 p-0 m-0">{{ filed }}</span><span v-else class="list-field-6 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 1000; "></i></span>
                         </template>
                         <span  class="list-field-11 p-0 m-0"></span>
                     </div>
 
                     <div >
-                        <template  v-for="(filed, index) in position[3]" :key="'l4-' + index">
-                            <span v-if="index == 'line_4_position_1'" class="list-field-1 p-0 m-0">{{ filed }}</span><span v-else class="list-field-8 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 1000; "></i></span>
+                        <template  v-for="(filed, index) in position[4]" :key="'l4-' + index">
+                            <span v-if="index == 'coluna_4_corda_0'" class="list-field-1 p-0 m-0">{{ filed }}</span><span v-else class="list-field-8 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 1000; "></i></span>
                         </template>
                         <span  class="list-field-11 p-0 m-0"></span>
                     </div>
 
                     <div>
-                        <template  v-for="(filed, index) in position[4]"  :key="'l5-' + index">
-                            <span v-if="index == 'line_5_position_1'" class="list-field-1 p-0 m-0">{{ filed}}</span><span v-else class="list-field-10 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 1000; "></i></span>
+                        <template  v-for="(filed, index) in position[5]"  :key="'l5-' + index">
+                            <span v-if="index == 'coluna_5_corda_0'" class="list-field-1 p-0 m-0">{{ filed}}</span><span v-else class="list-field-10 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 1000; "></i></span>
                         </template>
                         <span  class="list-field-11 p-0 m-0"></span>
                     </div>
@@ -183,8 +183,8 @@ const returnCath = ((e) => {
 .list-field-5,
 .list-field-7,
 .list-field-9 {
-    width: 1em;
-    height: 1.5em;
+    width: 1.2em;
+    height: 1.6em;
     display: inline-block;
     text-align: center;
     vertical-align: middle;

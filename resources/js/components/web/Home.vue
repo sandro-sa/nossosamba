@@ -1,16 +1,22 @@
 <template>
 	<alert-loading :msg="msg" :isLoading="isLoading" :alert="alert"></alert-loading>
-	<div class="container" >
+	<div class="container">
 		<div class="d-flex flex-wrap">
       		<template v-for="singer in singers" :key="singer.id">
             <template v-if="!singer.musics">
+              
               <div class="dropdown m-1 ">
+                <div class="card" style=" width: 200px; border-radius: 0px;">
+                  <img :src="'/storage/'+singer.image " class="card-img-top" :alt="'foto do cantor ou grupo '+ singer.singer_name" style=" border-radius: 0px;">
+              </div>
                 <button class="btn btn btn-secondary text-start "type="button" :title="singer.singer_name">{{ reduceText(singer.singer_name) }}</button>
-
               </div>
             </template>
             <template v-else >
               <div class="dropdown m-1">
+                <div class="card" style=" width: 200px; border-radius: 0px;" >
+                  <img :src="'/storage/'+singer.image " class="card-img-top" :alt="'foto do cantor ou grupo '+ singer.singer_name" style=" border-radius: 0px;">
+              </div>
                   <button class="btn  btn-primary text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false" :title="singer.singer_name">
                     <i  class="bi bi-music-note-list me-2"></i> {{ reduceText(singer.singer_name) }} 
                   </button>
@@ -94,6 +100,7 @@ onMounted(() => {
 
 </script>
 <style scoped>
+.container{}
   .quill-editor {
     min-height: 700px;
 	background-color: rgb(255, 255, 255);
@@ -103,34 +110,46 @@ onMounted(() => {
   }
   .btn-primary{
     width: 200px;
-    background-color: #0d6efd;
+    background-color: #a76f67;
     color: white;
     padding-left: 20px;
+    border: #89443d;
+    border-radius: 0px;
   }
   .btn-primary:hover{
     width: 200px;
-    background-color: #0e5bce;
+    background-color: #89443d;
     color: white;
   }
   .btn-secondary{
     width: 200px;
-    border-color: #a4abb4;
-    background-color: #a4abb4;
+    border-color: #c49990;
+    background-color: #c49990;
     color: white;
     padding-left: 20px;
+    border-radius: 0px;
   }
-
   .dropdown-menu{
-    background-color: aliceblue;
+    background-color: #ffffff;
+    border: #ffffff;
+    border-radius: 0px;
     min-width: 200px;
   }
+  .dropdown-item:hover{
+    background-color: #e2c4b9;
+    color: #ffffff;
+  }
 
-  @media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) {
 
     .flex-wrap{
       display: flex;
       justify-content: center;
     }
+    .card {
+      display: none;
+    }
+    
 	}
 
 </style>

@@ -4,7 +4,7 @@
 		<div class="row">
             <div class="col-md-6">
                 <h2 class="text-start mt-3">{{singer.singer_name}}</h2>
-            	<table  v-if="musics" class="table table-bordered table-info table-hover">
+            	<table  v-if="musics" class="table table-bordered table-light table-hover">
 					<thead>
 						<tr>
 						<th scope="col">#</th>

@@ -18,6 +18,7 @@ class MusicRequest extends FormRequest
             'rhythm_id' => 'required',
             'introduction' => 'nullable',
             'music_name' => 'required',
+            'composers' => 'nullable',
             'music' => 'required',
             'chords' => 'required',
         ];

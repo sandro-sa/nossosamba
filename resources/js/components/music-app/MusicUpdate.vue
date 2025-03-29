@@ -79,6 +79,11 @@
 					</div>
 
 					<div class="form-group">
+						<label for="composers">Compositores</label>
+						<input v-model="composers" type="text" class="form-control" id="composers" name="composers" placeholder="Compositor1, Compositor2, .....">
+					</div>
+
+					<div class="form-group">
 						<label for="music_name">Introdução</label>
 						<input v-model="introduction" type="text" class="form-control" id="introduction" name="introduction" placeholder="Introdução em cifras">
 					</div>
@@ -133,6 +138,7 @@ const tone = ref(null);
 const rhythm = ref(null);
 const introduction = ref(null);
 const music_name = ref('');
+const composers = ref('');
 const music = ref(null);
 const editor = ref(null);
 const chords = ref([]);
@@ -176,6 +182,7 @@ const submit = (async () => {
 		rhythm_id: rhythm.value,
 		introduction: introduction.value,
 		music_name: music_name.value,
+		composers: composers.value,
 		music: music.value,
 		chords: chords.value,
         
@@ -253,6 +260,7 @@ onMounted(() => {
 		rhythm.value = edit.rhythm_id;
 		introduction.value = edit.introduction;
 		music_name.value = edit.music_name;
+		composers.value = edit.composers;
 		music.value = edit.music;
 	}
 

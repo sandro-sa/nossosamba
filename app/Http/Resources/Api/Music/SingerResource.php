@@ -14,6 +14,7 @@ class SingerResource extends JsonResource
             'id' => $this->id,
             'singer_name' => $this->singer_name,
             'singer_type' => $this->singer_type,
+            'image' => $this->image,
             'musics' => $this->when($this->musics && $this->musics->isNotEmpty(), SingerMusicsResource::collection($this->musics))
 
         ];

@@ -6,7 +6,7 @@
         <div v-if="singers" class="row">
             <div class="col">
                 <h2 class="text-start mt-3">Músicos/Grupos</h2>
-            <table class="table table-bordered table-info table-hover">
+            <table class="table table-bordered table-light table-hover">
                 <thead>
                     <tr>
                     <th scope="col">#</th>
@@ -100,3 +100,9 @@ const returnCath = ((e) => {
 
 onMounted(() => execute() );
 </script>
+<style >
+.btn-success{
+	background-color: #508570;
+	border-radius:0px;
+}
+</style>

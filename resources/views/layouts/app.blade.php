@@ -20,9 +20,9 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
-<body>
+<body style="background-color: #ffeee2">
     <div id="app">
-        <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+        <nav class="navbar navbar-expand-lg " data-bs-theme="dark" style="background-color: #89443d">
             <div class="container-fluid">
 				<a class="navbar-brand" href="{{route('home')}}">Nosso samba</a>
 				
@@ -37,7 +37,6 @@
 							<a  class="nav-link @if($url ==  'chord' ) active @endif"  aria-current="page"  href="{{route('chord')}}">Cifras</a>
 						</li>
 					@auth
-						
 							<li class="nav-item">
 								<a  class="nav-link " aria-current="page" href="#">Repertórios</a>
 							</li>
@@ -56,7 +55,6 @@
 							<li class="nav-item">
 								<a class="nav-link @if($url ==  'ritimo' )active @endif" href="{{route('ritimo')}}">Ritímo</a>
 							</li>
-						
 						
 					@endauth
 

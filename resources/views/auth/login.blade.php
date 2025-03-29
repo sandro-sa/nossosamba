@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header" style="background-color: rgb(32, 102, 255);color:white">{{ __('Login') }}</div>
+                <div class="card-header" style="background-color: #89443d;color:white">{{ __('Login') }}</div>
 
                 <div class="card-body" style="background-color: white; ">
                     <form method="POST" action="{{ route('login') }}">
@@ -53,8 +53,8 @@
 
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                   Login
+                                <button type="submit" class="btn" style="background-color: #89443d;color:white">
+                                    {{ __('Login') }}
                                 </button>
 
                                 @if (Route::has('password.request'))

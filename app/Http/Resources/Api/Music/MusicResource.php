@@ -14,6 +14,7 @@ class MusicResource extends JsonResource
             'introduction' => $this->introduction,
             'music_name' => $this->music_name,
             'music' => $this->music,
+            'composers' => $this->composers,
             "singer" => $this->when($this->singer, new SingerResource($this->singer)),
             "tone" => $this->when($this->tone, new ToneResource($this->tone)),
             "rhythm" => $this->when($this->rhythm, new RhythmResource($this->rhythm)),

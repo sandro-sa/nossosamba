@@ -1,15 +1,20 @@
 <template>
-	
-
 	<div class="container">
 		<div class="row">
 			<div class="col-md-7">
-				<h2 style="font-size: 1em; font-weight: bold;">{{music.singer.singer_name}}</h2>
-				<h2 style="font-size: 1em; font-weight: bold;">{{ music.music_name }}</h2>
+                <span class="info">
+                    <h2 style="font-size: 1em; font-weight: bold;">{{music.singer.singer_name}}</h2>
+                    <h2 style="font-size: 1em; font-weight: bold;">{{ music.music_name }}</h2>
+                    <span style="font-size: 0.8em; font-weight: bold;">Compositor(es): {{ music.composers}}</span>
+                    <br>
+                </span>
 				<span style="font-size: 0.8em; font-weight: bold;">Tom: {{ music.tone.tone}}</span>
 				<br>
 				<p class="m-0 p-0" style="font-size: 0.8em; font-weight: bold;">Intro: {{ music.introduction }}</p>
-				<br>
+                <span class="info">
+                    <br>
+                </span>
+
 				<div @mouseover="mostrarProximoElemento">
 					<div class="music m-0 p-0" v-html="music.music"></div>
 				</div>
@@ -25,36 +30,36 @@
                             <div class="box ">
 
                                 <div >
-                                    <template  v-for="(filed, index) in position[0]" :key="'l1-' + index">
-                                        <span v-if="index == 'line_1_position_1'" class="field-1 p-0 m-0">{{ filed }}</span><span  v-else class="field-2 p-0 m-0" ><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                                    <template  v-for="(filed, index) in position[1]" :key="'l1-' + index">
+                                        <span v-if="index == 'coluna_1_corda_0'" class="field-1 p-0 m-0">{{ filed }}</span><span  v-else class="field-2 p-0 m-0" ><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
                                     </template>
                                     <span  class="field-11 p-0 m-0"></span>
                                 </div>
 
                                 <div >
-                                    <template   v-for="(filed, index) in position[1]"  :key="'l2-' + index">
-                                        <span v-if="index == 'line_2_position_1'"class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-4 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                                    <template   v-for="(filed, index) in position[2]"  :key="'l2-' + index">
+                                        <span v-if="index == 'coluna_2_corda_0'"class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-4 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
                                     </template>
                                     <span  class="field-11 p-0 m-0"></span>
                                 </div>
 
                                 <div >
-                                    <template  v-for="(filed, index) in position[2]"  :key="'l3-' + index">
-                                        <span v-if="index == 'line_3_position_1'" class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-6 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                                    <template  v-for="(filed, index) in position[3]"  :key="'l3-' + index">
+                                        <span v-if="index == 'coluna_3_corda_0'" class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-6 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
                                     </template>
                                     <span  class="field-11 p-0 m-0"></span>
                                 </div>
 
                                 <div >
-                                    <template  v-for="(filed, index) in position[3]" :key="'l4-' + index">
-                                        <span v-if="index == 'line_4_position_1'" class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-8 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                                    <template  v-for="(filed, index) in position[4]" :key="'l4-' + index">
+                                        <span v-if="index == 'coluna_4_corda_0'" class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-8 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
                                     </template>
                                     <span  class="field-11 p-0 m-0"></span>
                                 </div>
 
                                 <div>
-                                    <template  v-for="(filed, index) in position[4]"  :key="'l5-' + index">
-                                        <span v-if="index == 'line_5_position_1'" class="field-1 p-0 m-0">{{ filed}}</span><span v-else class="field-10 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 1000; background-color: white;"></i></span>
+                                    <template  v-for="(filed, index) in position[5]"  :key="'l5-' + index">
+                                        <span v-if="index == 'coluna_5_corda_0'" class="field-1 p-0 m-0">{{ filed}}</span><span v-else class="field-10 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 1000; background-color: white;"></i></span>
                                     </template>
                                     <span  class="field-11 p-0 m-0"></span>
                                 </div>
@@ -139,7 +144,6 @@ const enableDynamicTooltip = (element, chord) => {
 	z-index: 9000;
 }
 .chord-content {
-	
     font-family: monospace;
 }
 
@@ -223,6 +227,9 @@ const enableDynamicTooltip = (element, chord) => {
     .all-chords{
 		display: none;
 	}
+    .info{
+        display: none;
+    }
 }
 
 </style>

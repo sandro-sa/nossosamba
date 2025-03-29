@@ -22,7 +22,7 @@ Route::get('all_singer',[AllSingersController::class,'index']);
 Route::get('all_chord',[ShowChordsController::class,'index']);
 
 
-Route::middleware(['auth', 'web'])->group(function (){
+//Route::middleware(['auth', 'web'])->group(function (){
 
     Route::apiResource('singer',SingerController::class);
     Route::get('singer_musics/{id}',ShowSingerMusicsController::class);
@@ -31,4 +31,4 @@ Route::middleware(['auth', 'web'])->group(function (){
     Route::apiResource('tone',ToneController::class);
     Route::apiResource('rhythm',RhythmController::class);
 
-});
+//});

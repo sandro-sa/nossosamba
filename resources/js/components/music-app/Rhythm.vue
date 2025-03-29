@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col">
                 <h2 class="text-start mt-3">Ritmos</h2>
-            <table class="table table-bordered table-info table-hover">
+            <table class="table table-bordered table-light table-hover">
                 <thead>
                     <tr>
                     <th scope="col">#</th>
