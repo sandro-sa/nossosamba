@@ -59,7 +59,7 @@
 
                     <div>
                         <template  v-for="(filed, index) in state.lines[5]"  :key="'l5-' + index">
-                            <span v-if="index == 'coluna_5_corda_0'" class="field-1 p-0 m-0">{{ filed}}</span><span v-else class="field-10 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 1000; background-color: white;"></i></span>
+                            <span v-if="index == 'coluna_5_corda_0'" class="field-1 p-0 m-0">{{ filed}}</span><span v-else class="field-10 p-0 m-0"><i :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 1000; background-color: white;"></i></span>
                         </template>
                         <span  class="field-11 p-0 m-0"></span>
                     </div>
