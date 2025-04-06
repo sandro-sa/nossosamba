@@ -22,11 +22,7 @@ class ShowMusicController extends Controller
         "C#" => 2, "D" => 3,
         "Eb" =>4 , "E" => 5, "F" =>6,
         "F#" => 7 , "G" => 8,
-        "G#" => 9 , "A" => 10, "Bb" => 11 , "B" => 12
-    ];
-
-    private $escalaVerificacao = [
-        "C","D", "E", "F", "G", "A", "B"
+        "G#" => 9 , "A" => 10, "Bb" => 11 , "B" => 12 , "B" => 12
     ];
 
     public function index($id, $posicaoDoNovoTom = null)
@@ -39,8 +35,6 @@ class ShowMusicController extends Controller
 
         $tom = $this->retornaTom($music->tone->tone);
         $acordeEhMenor = $this->verificaSeAcordeEhMenor($music->tone->tone);
-
-        
 
         $escala = null;
         if($acordeEhMenor){
@@ -57,8 +51,6 @@ class ShowMusicController extends Controller
 
         $listaDeTons = RetornaListaDeNomesEhPosicaoOndeInciaOhAcorde::retornaListaDeNomesEhPosicaoOndeInciaOhAcorde($posicao, $music->tone->tone);
     
-        
-
         $arrayChords = json_decode($music->chords);
 
         $listaDeAcordeParaMudarTom = false;
@@ -125,22 +117,14 @@ class ShowMusicController extends Controller
 
     }
 
-    private function retornaRestanteDoAcorde($tom, $novaPosicao, $escalaEhMenor){
+    private function retornaRestanteDoAcorde($tom){
       
         $restanteDoAcorde = substr($tom, 1);
         $sustenidoOuBemol = mb_substr($tom, 1, 1, 'UTF-8');
         if($sustenidoOuBemol == "b" || $tom == "#"){
             $restanteDoAcorde = substr($tom, 2);
         }
-
-        $temTomNotaMusical = $this->verificaSeAcordeTemTomMaior($restanteDoAcorde,$novaPosicao);
-
-        if($temTomNotaMusical){
-            $novaNota  = $this->retornaNovaNotaAposNota($novaPosicao, $temTomNotaMusical, $escalaEhMenor);
-            $restanteDoAcorde = str_replace($temTomNotaMusical, $novaNota, $restanteDoAcorde);
-        }
         return $restanteDoAcorde;
-
     }
 
     private function retornaNovaNota($novaPosicao, $nota, $acordeEhMenor){
@@ -160,32 +144,31 @@ class ShowMusicController extends Controller
         }
 
         if(!$posicao){
-            $posicao = 12;
-         }
-         else if($posicao < 0){
-             $posicao = 12 - ($posicao *-1);
-         }
-         else if($posicao > 12){
-             $posicao = $posicao - 12;
-         }
-         
-         foreach ($escala as $chave => $valor) {
-             if($posicao == $valor){
-                 return $chave;
-             }
-         }
+           $posicao = 1;
+        }
+        if($posicao < 0){
+            $posicao = 12 - ($posicao *-1);
+        }
+        if($posicao > 12){
+            $posicao = $posicao - 12;
+        }
+      
+        foreach ($escala as $chave => $valor) {
+            if($posicao == $valor){
+                return $chave;
+            }
+        }
 
     }
     
     private function retornaListaDeAcordeParaMudarTom($arrayChords, $novaPosicao, $escalaEhMenor){
         
         foreach($arrayChords as $key => $value){
-
             $nota = $this->retornaTom($value);
 
-            $novaNota = $this->retornaNovaNota($novaPosicao, $nota, $escalaEhMenor,$escalaEhMenor);
+            $novaNota = $this->retornaNovaNota($novaPosicao, $nota, $escalaEhMenor);
 
-            $restanteDoAcorde = $this->retornaRestanteDoAcorde($value,$novaPosicao,$escalaEhMenor);
+            $restanteDoAcorde = $this->retornaRestanteDoAcorde($value);
     
             $novosAcordes[$value] = $novaNota.$restanteDoAcorde;
         }
@@ -201,7 +184,7 @@ class ShowMusicController extends Controller
 
             $novaNota = $this->retornaNovaNota($novaPosicao, $nota, $escalaEhMenor );
 
-            $restanteDoAcorde = $this->retornaRestanteDoAcorde($value,$novaPosicao, $escalaEhMenor);
+            $restanteDoAcorde = $this->retornaRestanteDoAcorde($value);
 
             $novosAcordes[ $key] = $novaNota.$restanteDoAcorde;
         }
@@ -234,59 +217,5 @@ class ShowMusicController extends Controller
             }
     
         }
-    }
-
-    private function verificaSeAcordeTemTomMaior($restanteDoAcorde,$novaPosicao){
-        
-        $contémLetras = false;
-
-        foreach ($this->escalaVerificacao as $letra) {
-            if (stripos($restanteDoAcorde, $letra) !== false) {
-                $contémLetras = $letra;
-                break;
-            }
-        }
-
-        if ($contémLetras) {
-            return $contémLetras;
-        }
-
-        return false;
-    }
-    private function retornaNovaNotaAposNota($novaPosicao, $nota, $acordeEhMenor){
-
-        
-        $posicao = null;
-        $escala = [];
-        if($acordeEhMenor){
-            $escala = $this->escalaMenor;
-        }else{
-            $escala = $this->escalaMaior;
-        }
-
-        foreach ($escala as $chave => $valor) {
-            if($nota == $chave){
-                
-                $posicao = $valor - $novaPosicao;
-               // dd($nota,$chave,$posicao,$valor, $novaPosicao);
-            }
-        }
-
-        if(!$posicao){
-           $posicao = 12;
-        }
-        else if($posicao < 0){
-            $posicao = 12 - ($posicao *-1);
-        }
-        else if($posicao > 12){
-            $posicao = $posicao - 12;
-        }
-        
-        foreach ($escala as $chave => $valor) {
-            if($posicao == $valor){
-                return $chave;
-            }
-        }
-
     }
 }

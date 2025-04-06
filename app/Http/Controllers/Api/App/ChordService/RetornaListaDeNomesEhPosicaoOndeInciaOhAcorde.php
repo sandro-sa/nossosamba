@@ -23,7 +23,7 @@ class RetornaListaDeNomesEhPosicaoOndeInciaOhAcorde{
             "G#" => 9 , "A" => 10, "Bb" => 11 , "B" => 12
         ];
         $escalaVerificacao = [
-            "C","D", "E", "F", "G", "A", "B",    
+            "C","D", "E", "F", "G", "A", "B"
         ];
 
 
