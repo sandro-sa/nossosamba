@@ -3,7 +3,7 @@
 
 
 		<div class="row">
-			<div class="col-md-7">
+			<div class="col-md-5">
                 <span class="info">
                     <h2 style="font-size: 1em; font-weight: bold;">{{music.singer.singer_name}}</h2>
                     <h2 style="font-size: 1em; font-weight: bold;">{{ music.music_name }}</h2>
@@ -86,7 +86,7 @@
 
 			</div>
 
-			<div class="col-md-5 all-chords">
+			<div class="col-md-7 all-chords">
 				<template v-if="chords">
         			<chords-list-wrap :token_crsf="token_crsf" :chords="chords" :delete="false" ></chords-list-wrap>
     			</template>
