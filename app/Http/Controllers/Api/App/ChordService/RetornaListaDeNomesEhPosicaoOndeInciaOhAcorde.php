@@ -22,14 +22,11 @@ class RetornaListaDeNomesEhPosicaoOndeInciaOhAcorde{
             "F#" => 7 , "G" => 8,
             "G#" => 9 , "A" => 10, "Bb" => 11 , "B" => 12
         ];
-        // $escala = [
-        //     "C" => 1, "C#" =>2,
-        //     "Db" => 2, "D" => 3, "D#" => 4,
-        //     "Eb" =>4 , "E" => 5, "F" =>6,
-        //     "F#" => 7 , "Gb" => 7, "G" => 8,
-        //     "G#" => 9, "Ab" => 9 , "A" => 10 ,
-        //     "A#" => 11, "Bb" => 11 , "B" => 12
-        // ];
+        $escalaVerificacao = [
+            "C","D", "E", "F", "G", "A", "B",    
+        ];
+
+
 
         $escala = [];
 
@@ -45,7 +42,21 @@ class RetornaListaDeNomesEhPosicaoOndeInciaOhAcorde{
         }else{
             $escala = $escalaMaior;
         }
-       
+
+        $contémLetras = false;
+
+        foreach ($escalaVerificacao as $letra) {
+            if (stripos($tom, $letra) !== false) {
+                $contémLetras = true;
+                break;
+            }
+        }
+
+        $nova__lista_de_acordes = [];
+        if ($contémLetras) {
+            $nova__lista_de_acordes[$nomeDoAcorde] = $posicao_onde_comeca_acorde;
+            return $nova__lista_de_acordes;
+        }
 
         $lista_de_acordes = [];
         $nova__lista_de_acordes = [];
@@ -53,6 +64,8 @@ class RetornaListaDeNomesEhPosicaoOndeInciaOhAcorde{
             $novo_acorde = $chave . $tom;
             $lista_de_acordes[$novo_acorde] = $valor;
         }
+
+       
 
         $numero = 0;
         foreach ($lista_de_acordes as $chave => $valor) {
@@ -74,7 +87,7 @@ class RetornaListaDeNomesEhPosicaoOndeInciaOhAcorde{
             
         }
    
-    
+        
         asort($nova__lista_de_acordes);
         return $nova__lista_de_acordes;
 

@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('123456'),
         ]);
 
-       $this->call(SingerSeeder::class);
-       $this->call(RhythmSeeder::class);
-       $this->call(ToneSeeder::class);
+    //    $this->call(SingerSeeder::class);
+    //    $this->call(RhythmSeeder::class);
+    //    $this->call(ToneSeeder::class);
     }
 }

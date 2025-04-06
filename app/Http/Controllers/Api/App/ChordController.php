@@ -45,7 +45,6 @@ class ChordController extends Controller{
         }
 
         $listaComNomeEhPosicaoDoAcorde = RetornaListaDeNomesEhPosicaoOndeInciaOhAcorde::retornaListaDeNomesEhPosicaoOndeInciaOhAcorde($posicaoOndeComecaArcorde, $nomeDoAcorde);
-
        
         $listaDeAcordes = RetornaListaDeAcordes::retornaListaDeAcordes($listaComNomeEhPosicaoDoAcorde, $acorde, $tamanhoDoAcorde);
 
