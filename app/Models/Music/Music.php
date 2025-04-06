@@ -10,10 +10,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Music extends Model
 {
     use HasFactory;
-
-    protected $table = 'musics';
-
+    
     protected $guarded = ['id'];
+
+    protected $table = "musics";
 
     protected $cats = [
         'chords' => "array",
@@ -27,6 +27,9 @@ class Music extends Model
     }
     public function singer(){
         return $this->belongsTo(Singer::class);
+    }
+    public function composers(){
+        return $this->belongsToMany(Composer::class, 'composer_music', 'music_id', 'composer_id');
     }
     
 }

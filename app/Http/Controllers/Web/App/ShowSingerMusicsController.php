@@ -14,10 +14,11 @@ class ShowSingerMusicsController extends Controller
     }
     public function index(String $id)
     {
+       
         $singer = Singer::findOrFail($id);
-        
         return view('music-app.show-singer-musics',[
             'singer' => $singer
         ]);
     }
+    
 }

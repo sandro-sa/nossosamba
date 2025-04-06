@@ -14,12 +14,14 @@ class MusicUpdateController extends Controller
 
     public function index($id)
     {
-       try {
-            $music = Music::findOrFail($id);
+        
+        try {
+            $music = Music::where('id',(int)$id)->first();
+            return view('music-app.music-update',['music' => $music]);
+            
         } catch (\Exception $e) {
             return view('error.not-found');
         }
         
-        return view('music-app.music-update',['music' => $music]);
     }
 }

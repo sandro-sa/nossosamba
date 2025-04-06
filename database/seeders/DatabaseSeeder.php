@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,8 +16,13 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         \App\Models\User::factory()->create([
-            'name' => 'Test User',
+            'name' => 'sandro',
             'email' => 'test@example.com',
+            'password' => Hash::make('123456'),
         ]);
+
+       $this->call(SingerSeeder::class);
+       $this->call(RhythmSeeder::class);
+       $this->call(ToneSeeder::class);
     }
 }

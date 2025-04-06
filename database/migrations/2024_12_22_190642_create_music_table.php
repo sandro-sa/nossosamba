@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('singer_id')->constrained('singers');
             $table->foreignId('rhythm_id')->constrained('rhythms');
             $table->foreignId('tone_id')->constrained('tones');
-            $table->string('music_name')->unique();
+            $table->string('music_name');
             $table->string('introduction')->nullable();
             $table->text('music')->nullable();
             $table->json('chords');

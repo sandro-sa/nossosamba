@@ -1,24 +1,35 @@
 <template>
 	<div class="container">
+
+
 		<div class="row">
 			<div class="col-md-7">
                 <span class="info">
                     <h2 style="font-size: 1em; font-weight: bold;">{{music.singer.singer_name}}</h2>
                     <h2 style="font-size: 1em; font-weight: bold;">{{ music.music_name }}</h2>
-                    <span style="font-size: 0.8em; font-weight: bold;">Compositor(es): {{ music.composers}}</span>
+                    <span style="font-size: 0.8em; font-weight: bold;">De: {{ music.composers}}</span>
                     <br>
                 </span>
-				<span style="font-size: 0.8em; font-weight: bold;">Tom: {{ music.tone.tone}}</span>
-				<br>
-				<p class="m-0 p-0" style="font-size: 0.8em; font-weight: bold;">Intro: {{ music.introduction }}</p>
-                <span class="info">
-                    <br>
-                </span>
+
+                <div class="dropdown">
+                    <button class="btn  btn-sm dropdown-toggle m-0 btn-tom" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Tom: <span v-if="mudou_tom">{{ mudou_tom}}</span><span v-else>{{ music.tone.tone}}</span>
+                    </button>
+                    <ul class="dropdown-menu " style="max-width: 200px;">
+                        <div class="row">
+                            <li v-for="(nota, index) in convertForArray(tons)" :key="index" class="col-4" >
+                                <a class="dropdown-item" :href="url+'letra/'+ music.id+'/'+nota.posicao">{{ nota.tom }}</a>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+
+				
+				<p class="m-0 p-0" style="font-size: 0.8em; font-weight: bold;">Intro: {{ introducao()}}</p> 
 
 				<div @mouseover="mostrarProximoElemento">
-					<div class="music m-0 p-0" v-html="music.music"></div>
+					<div class="music m-0 p-0" v-html="letra()"></div>
 				</div>
-
 
 				<template v-if="chords"  v-for=" chord in chords" :key="chord.id">
                    
@@ -75,7 +86,6 @@
 
 			</div>
 
-
 			<div class="col-md-5 all-chords">
 				<template v-if="chords">
         			<chords-list-wrap :token_crsf="token_crsf" :chords="chords" :delete="false" ></chords-list-wrap>
@@ -87,26 +97,74 @@
 </template>
   
 <script setup>
-const props = defineProps(['token_crsf', 'music', 'chords']);
+
+import urls from '@/utils/urls';
+
+const props = defineProps(["token_crsf","music","chords","tons", "lista_de_novos_acordes", "mudou_tom"]);
+
+const url = urls.url;
+
+
+const letra = (() => {
+
+    if (props.mudou_tom) {
+    
+        const alterarAcordes = (textoHtml, listaDeNovosAcordes) => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(textoHtml, 'text/html');
+            const acordes = doc.querySelectorAll('span.acorde');
+
+            acordes.forEach((acordeSpan) => {
+                const acordeOriginal = acordeSpan.textContent.trim();
+                if (listaDeNovosAcordes[acordeOriginal]) {
+                    acordeSpan.textContent = listaDeNovosAcordes[acordeOriginal];
+                }
+            });
+            return doc.body.innerHTML;
+        };
+        const textoHtmlAlterado = alterarAcordes(props.music.music, props.lista_de_novos_acordes);
+        return textoHtmlAlterado;
+    } else {
+        return props.music.music;
+    }
+});
+
+
+const introducao = (() => {
+    if (props.mudou_tom) {
+  
+        const alterarAcordes = (texto, listaDeNovosAcordes) => {
+            const regex = /\b([A-Ga-g#]+[0-9]?[a-zA-Z]*)\b/g;
+            return texto.replace(regex, (match) => {
+                return listaDeNovosAcordes[match] || match;
+            });
+        };
+        const novaIntroducao = alterarAcordes(props.music.introduction, props.lista_de_novos_acordes);
+
+        return novaIntroducao;
+    } else {
+        return props.music.introduction;
+    }
+});
+
 
 const convertForArray = ((json) => {
     let parsedArray = JSON.parse(json);
     return parsedArray
 });
 
-
 const mostrarProximoElemento = (event) => {
   if (event.target && event.target.classList.contains('acorde')) {
     const chord = event.target.textContent;
-    enableDynamicTooltip(event.target, chord);  // Passa o target e o conteúdo para a função
+    enableDynamicTooltip(event.target, chord);  
   }
 };
 
 const enableDynamicTooltip = (element, chord) => {
   const tooltip = document.getElementById("tooltip");
-  const contentElement = document.getElementById(chord); // Procuramos a div com esse id
+  const contentElement = document.getElementById(chord); 
 
-  if (!contentElement) return; // Se não encontrar a div com o id correspondente, ignora
+  if (!contentElement) return; 
   const content = contentElement.innerHTML;
 
   const showTooltip = (e) => {
@@ -130,6 +188,30 @@ const enableDynamicTooltip = (element, chord) => {
 </script>
 <style scoped>
 
+.btn-tom{
+  margin: 0px;
+  padding: 0px;
+}
+
+.btn-tom:hover{
+    border: 0px;
+}
+.btn-tom:focus{
+    border: 0px;
+}
+
+.dropdown-menu{
+    background-color: #89443d;
+    padding-right: 15px;
+}
+.dropdown-menu li a{
+    color: #fff;
+}
+.dropdown-menu li a:hover{
+    background-color: #89443d;
+    color: #b18989;
+    border: 0px;
+}
 .container{
 	background-color: white;
 	padding: 20px;

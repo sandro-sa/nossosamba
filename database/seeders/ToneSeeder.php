@@ -14,7 +14,7 @@ class ToneSeeder extends Seeder
                 'tone' => 'C',
             ],
             [
-                'tone' => 'Cm',
+                'tone' => 'Dm',
             ],
         ]);
     }

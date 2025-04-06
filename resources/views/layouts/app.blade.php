@@ -19,6 +19,25 @@
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+	<style>
+		.list-group-item{
+			background-color: #ffeee2;
+			color: #89443d ;
+			border: 0px;
+		}
+        /* Efeito de hover no item de lista */
+        .list-group-item:hover {
+            background-color: #ffcc99; /* Cor de fundo ao passar o mouse */
+            color: #6a2d1a; /* Cor do texto */
+        }
+
+        /* Efeito de hover no link */
+        .list-group-item a:hover {
+            color: #6a2d1a; /* Cor do link */
+            text-decoration: underline; /* Adiciona um sublinhado ao link */
+        }
+    </style>
 </head>
 <body style="background-color: #ffeee2">
     <div id="app">
@@ -34,7 +53,7 @@
               	<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 						<li class="nav-item">
-							<a  class="nav-link @if($url ==  'chord' ) active @endif"  aria-current="page"  href="{{route('chord')}}">Cifras</a>
+							<a  class="nav-link @if($url ==  'chord' ) active @endif"  aria-current="page"  data-bs-toggle="offcanvas" href="#offcanvasExample"  aria-controls="offcanvasExample">Cifras</a>
 						</li>
 					@auth
 							<li class="nav-item">
@@ -72,6 +91,30 @@
             </div>
 			
           </nav>
+		  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel"  style="background-color: #89443d; color: #fff">
+			<div class="offcanvas-header">
+				<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+			</div>
+			<div class="offcanvas-body">
+				<div>
+					Nosso dicionário de acordes é construído manualmente. Caso encontre algum acorde com erro, pedimos que entre em contato conosco.
+				</div>
+				<br>
+				
+				<h5 class="offcanvas-title" id="offcanvasExampleLabel">Cifras em:</h5>
+				<br>
+				<ul class="list-group"  style="border: 0px">
+				  <li class="list-group-item" ><a class="nav-link" href="{{route('chord',['chord' => 'C']) }}">DÓ - C</a></li>
+				  <li class="list-group-item" ><a class="nav-link" href="{{route('chord',['chord' => 'D']) }}">RÉ - D</a></li>
+				  <li class="list-group-item" ><a class="nav-link" href="{{route('chord',['chord' => 'E']) }}">MI - E</a></li>
+				  <li class="list-group-item" ><a class="nav-link" href="{{route('chord',['chord' => 'F']) }}">FÁ - F</a></li>
+				  <li class="list-group-item" ><a class="nav-link" href="{{route('chord',['chord' => 'G']) }}">SOL - G</a></li>
+				  <li class="list-group-item" ><a class="nav-link" href="{{route('chord',['chord' => 'A']) }}">LÁ - A</a></li>
+				  <li class="list-group-item" ><a class="nav-link" href="{{route('chord',['chord' => 'B']) }}">SI - B</a></li>
+				</ul>
+			 
+			</div>
+		  </div>
         <main class="py-4">
             @yield('content')
         </main>

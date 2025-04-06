@@ -27,8 +27,8 @@ Route::post('login',[LoginController::class,'login'])->name('login');
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/letra/{id}', [ShowMusicController::class,'index']);
-Route::get('/cifras', [ShowChordsController::class,'index'])->name('chord');
+Route::get('/letra/{id}/{param?}', [ShowMusicController::class,'index']);
+Route::get('/cifras/{chord}', [ShowChordsController::class,'index'])->name('chord');
 
 //Route::middleware(['auth', 'web'])->group(function () {
     

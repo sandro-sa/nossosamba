@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\App;
 
+use Illuminate\Support\Str;
 use App\Models\Music\Rhythm;
 use App\Http\Controllers\Controller;
 use App\Exceptions\Music\MusicException;
@@ -18,6 +19,7 @@ class RhythmController extends Controller
     public function store(RhythmRequest $request)
     {
         $fields = $request->validated();
+        $fields['rhythm'] = Str::upper($fields['rhythm']);
         $rhythm = Rhythm::where('rhythm', $fields['rhythm'])->first();
         if ($rhythm instanceof Rhythm) {
             throw new MusicException('Ritmo já foi cadastrado.');
@@ -31,6 +33,7 @@ class RhythmController extends Controller
     public function update(RhythmRequest $request, string $id)
     {
         $fields = $request->validated();
+        $fields['rhythm'] = Str::upper($fields['rhythm']);
         $rhythm_validade = Rhythm::where('rhythm', $fields['rhythm'])->first();
         if( $rhythm_validade instanceof Rhythm && $rhythm_validade->id != (int)$id)
         {

@@ -31,28 +31,28 @@
 
                     <div >
                         <template  v-for="(filed, index) in state.lines[1]" :key="'l1-' + index">
-                            <span v-if="index == 'coluna_1_corda_0'" class="field-1 p-0 m-0">{{ filed }}</span><span  v-else class="field-2 p-0 m-0" ><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                            <span v-if="index == 'coluna_1_corda_0'" class="field-1 p-0 m-0">{{ filed }}</span><span  v-else class="field-2 p-0 m-0" ><i :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
                         </template>
                         <span  class="field-11 p-0 m-0"></span>
                     </div>
 
                     <div >
                         <template   v-for="(filed, index) in state.lines[2]"  :key="'l2-' + index">
-                            <span v-if="index == 'coluna_2_corda_0'"class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-4 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                            <span v-if="index == 'coluna_2_corda_0'"class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-4 p-0 m-0"><i :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
                         </template>
                         <span  class="field-11 p-0 m-0"></span>
                     </div>
 
                     <div >
                         <template  v-for="(filed, index) in state.lines[3]"  :key="'l3-' + index">
-                            <span v-if="index == 'coluna_3_corda_0'" class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-6 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                            <span v-if="index == 'coluna_3_corda_0'" class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-6 p-0 m-0"><i :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
                         </template>
                         <span  class="field-11 p-0 m-0"></span>
                     </div>
 
                     <div >
                         <template  v-for="(filed, index) in state.lines[4]" :key="'l4-' + index">
-                            <span v-if="index == 'coluna_4_corda_0'" class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-8 p-0 m-0"><i v-show="filed" :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
+                            <span v-if="index == 'coluna_4_corda_0'" class="field-1 p-0 m-0">{{ filed }}</span><span v-else class="field-8 p-0 m-0"><i :class="'bi bi-'+filed+'-circle-fill'" style="z-index: 5000; background-color: white;"></i></span>
                         </template>
                         <span  class="field-11 p-0 m-0"></span>
                     </div>

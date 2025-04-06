@@ -16,6 +16,7 @@ class ShowSingerMusicsController extends Controller
     public function __invoke($id)
     {
         $musics = Music::where('singer_id', $id)->get();
+    
         $chordNames = [];
         
         foreach ($musics as $music) {
@@ -32,14 +33,11 @@ class ShowSingerMusicsController extends Controller
     
         $chords = Chord::whereIn('chord_name', $chordNames)->get();
         
-        if ($chords->isEmpty()) {
+        if ($musics->isEmpty()) {
             throw new MusicException('Não há musicas disponíveis');
         }
 
-
         $musics->load(['rhythm', 'tone']);
-        
-        // Aqui, você já tem a coleção pronta para ser retornada
         return response()->json([
             'musics' => MusicResource::collection($musics),
             'chords' => ChordResource::collection($chords),

@@ -26,9 +26,11 @@ Route::get('all_chord',[ShowChordsController::class,'index']);
 
     Route::apiResource('singer',SingerController::class);
     Route::get('singer_musics/{id}',ShowSingerMusicsController::class);
-    Route::apiResource('music',MusicController::class);
+   
     Route::apiResource('chord',ChordController::class);
     Route::apiResource('tone',ToneController::class);
     Route::apiResource('rhythm',RhythmController::class);
 
 //});
+
+Route::apiResource('music',MusicController::class);

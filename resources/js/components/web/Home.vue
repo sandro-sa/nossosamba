@@ -135,6 +135,10 @@ onMounted(() => {
     border-radius: 0px;
     min-width: 200px;
   }
+
+  .dropdown-item{
+    font-size: 0.8em;
+  }
   .dropdown-item:hover{
     background-color: #e2c4b9;
     color: #ffffff;

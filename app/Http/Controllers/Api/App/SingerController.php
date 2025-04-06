@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\App;
 
+use Illuminate\Support\Str;
 use App\Models\Music\Singer;
 use App\Http\Controllers\Controller;
 use App\Exceptions\Music\MusicException;
@@ -25,7 +26,7 @@ class SingerController extends Controller
     {
        
         $fields = $request->validated();
-        
+        $fields['singer_name'] = Str::upper($fields['singer_name']);
         $singer = Singer::where('singer_name', $fields['singer_name'])->first();
         if ($singer instanceof Singer) {
             throw new MusicException('Músico/Grupo já foi cadastrado.');
@@ -39,48 +40,49 @@ class SingerController extends Controller
             $processedImage = $this->imageSize($tempImagePath);
             $processedImagePath = 'image/singers/processed_' . $imageName;
             $fields['image'] = $processedImagePath;
-            unlink($tempImagePath);  
+            unlink($tempImagePath);
         }
         $newSinger = Singer::create($fields);
         return new SingerResource($newSinger);
     }
     public function update(SingerRequest $request, string $id)
-{
-    $fields = $request->validated();
-    $singer_validade = Singer::where('singer_name', $fields['singer_name'])->first();
-    if ($singer_validade instanceof Singer && $singer_validade->id != (int)$id) {
-        throw new MusicException('Músico/Grupo já está cadastrado.');
-    }
-
-    try {
-        $singer = Singer::findOrFail($id);
-
-        if ($request->hasFile('image')) {
-            if ($singer->image) {
-                $oldImagePath = storage_path('app/public/' . $singer->image);
-                if (file_exists($oldImagePath)) {
-                    unlink($oldImagePath);
-                }
-            }
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $imagePath = $image->storeAs('public/storage/image/singers', $imageName);
-            $tempImagePath = storage_path('app/public/storage/image/singers/' . $imageName);
-            $processedImage = $this->imageSize($tempImagePath);
-            $processedImagePath = 'image/singers/processed_' . $imageName;
-            $fields['image'] = $processedImagePath;
-            unlink($tempImagePath);  // Exclui o arquivo temporário
+    {
+        $fields = $request->validated();
+        $fields['singer_name'] = Str::upper($fields['singer_name']);
+        $singer_validade = Singer::where('singer_name', $fields['singer_name'])->first();
+        if ($singer_validade instanceof Singer && $singer_validade->id != (int)$id) {
+            throw new MusicException('Músico/Grupo já está cadastrado.');
         }
-        $singer->fill($fields);
-        $singer->save();
 
-        // Retorna a resposta com o recurso de cantor atualizado
-        return new SingerResource($singer);
-        
-    } catch (\Exception $e) {
-        throw new MusicException('Erro ao atualizar Músico/Grupo: ' . $e->getMessage());
+        try {
+            $singer = Singer::findOrFail($id);
+
+            if ($request->hasFile('image')) {
+                if ($singer->image) {
+                    $oldImagePath = storage_path('app/public/' . $singer->image);
+                    if (file_exists($oldImagePath)) {
+                        unlink($oldImagePath);
+                    }
+                }
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $imagePath = $image->storeAs('public/storage/image/singers', $imageName);
+                $tempImagePath = storage_path('app/public/storage/image/singers/' . $imageName);
+                $processedImage = $this->imageSize($tempImagePath);
+                $processedImagePath = 'image/singers/processed_' . $imageName;
+                $fields['image'] = $processedImagePath;
+                unlink($tempImagePath);  // Exclui o arquivo temporário
+            }
+            $singer->fill($fields);
+            $singer->save();
+
+            // Retorna a resposta com o recurso de cantor atualizado
+            return new SingerResource($singer);
+            
+        } catch (\Exception $e) {
+            throw new MusicException('Erro ao atualizar Músico/Grupo: ' . $e->getMessage());
+        }
     }
-}
 
 
     // public function update(SingerRequest $request, string $id)
