@@ -38,7 +38,7 @@
 					   <div class="chord-content m-0 p-0 pb-2 ps-2 ">
                            <template v-for="(position , index) in  convertForArray(chord['chord_positions'])" :key="index">
                            
-                            <div class="box ">
+                            <div class="box">
 
                                 <div >
                                     <template  v-for="(filed, index) in position[1]" :key="'l1-' + index">
@@ -227,6 +227,8 @@ const enableDynamicTooltip = (element, chord) => {
 }
 .chord-content {
     font-family: monospace;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .line {
