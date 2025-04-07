@@ -35,7 +35,7 @@
                    
                    <div class="nota " :id="chord.chord_name" style="display: none;">
 					   <h5 class="text-center title m-0 p-0 mt-2 mb-1 ">{{ chord.chord_name}}</h5>
-					   <div class="chord-content m-0 p-0 pb-2 ps-2 d-flex">
+					   <div class="chord-content m-0 p-0 pb-2 ps-2 ">
                            <template v-for="(position , index) in  convertForArray(chord['chord_positions'])" :key="index">
                            
                             <div class="box ">
@@ -311,6 +311,15 @@ const enableDynamicTooltip = (element, chord) => {
 	}
     .info{
         display: none;
+    }
+    .chord-content{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+       
+    }
+    .box{
+        margin-bottom: 5px;
     }
 }
 
