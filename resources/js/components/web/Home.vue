@@ -18,11 +18,11 @@
                   <img :src="'/storage/'+singer.image " class="card-img-top" :alt="'foto do cantor ou grupo '+ singer.singer_name" style=" border-radius: 0px;">
               </div>
                   <button class="btn  btn-primary text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false" :title="singer.singer_name">
-                    <i  class="bi bi-music-note-list me-2"></i> {{ reduceText(singer.singer_name) }} 
+                    <i  class="bi bi-music-note-list me-2"></i> {{ reduceText(singer.singer_name, 12) }} 
                   </button>
                   <ul class="dropdown-menu">
                     <template  v-for="music in singer.musics" :key="music.id">
-                      <li :title="music.music_name"><a class="dropdown-item" :href="pageMusic+music.id">{{ reduceText(music.music_name, 12 )}}</a></li>
+                      <li :title="music.music_name"><a class="dropdown-item" :href="pageMusic+music.id">{{ reduceText(music.music_name, 22 )}}</a></li>
                     </template>
                   </ul>
               </div>
