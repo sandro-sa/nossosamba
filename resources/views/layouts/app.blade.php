@@ -12,6 +12,19 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+	<!-- Open Graph / Facebook / WhatsApp -->
+	<meta property="og:title" content="O samba vive">
+	<meta property="og:description" content="Cifras e repertórios de Samba.">
+	<meta property="og:image" content="{{ asset('storage/image/osambavive.jpg') }}">
+	<meta property="og:url" content="{{ url()->current() }}">
+	<meta property="og:type" content="website">
+
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="O samba vive">
+	<meta name="twitter:description" content="Cifras e repertórios de Samba.">
+	<meta name="twitter:image" content="{{ asset('storage/image/osambavive.jpg') }}">
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
@@ -43,7 +56,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-lg " data-bs-theme="dark" style="background-color: #89443d">
             <div class="container-fluid">
-				<a class="navbar-brand" href="{{route('home')}}">Nosso samba</a>
+				<a class="navbar-brand" href="{{route('home')}}">O Samba Vive</a>
 				
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
