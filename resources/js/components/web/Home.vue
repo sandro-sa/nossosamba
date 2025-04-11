@@ -22,7 +22,7 @@
                   </button>
                   <ul class="dropdown-menu">
                     <template  v-for="music in singer.musics" :key="music.id">
-                      <li :title="music.music_name"><a class="dropdown-item" :href="pageMusic+music.id">{{ reduceText(music.music_name, 15 )}}</a></li>
+                      <li :title="music.music_name"><a class="dropdown-item" :href="pageMusic+music.id">{{ reduceText(music.music_name, 12 )}}</a></li>
                     </template>
                   </ul>
               </div>
