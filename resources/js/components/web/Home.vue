@@ -1,6 +1,5 @@
 <template>
 	<alert-loading :msg="msg" :isLoading="isLoading" :alert="alert"></alert-loading>
-	<div class="container">
 		<div class="d-flex flex-wrap">
       		<template v-for="singer in singers" :key="singer.id">
             <template v-if="!singer.musics">
@@ -30,7 +29,6 @@
 			
 			</template>
 		</div>
-	</div>
 </template>
   
 <script setup>
@@ -100,7 +98,7 @@ onMounted(() => {
 
 </script>
 <style scoped>
-.container{}
+
   .quill-editor {
     min-height: 700px;
 	background-color: rgb(255, 255, 255);
