@@ -2,7 +2,7 @@
 	<alert-loading :msg="msg" :isLoading="isLoading" :alert="alert"></alert-loading>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-8">
+			<div class="col-md-7">
 				<singer-create v-if="newSinger"  :token_crsf="token_crsf" @sendMessageDad="messages"  @excuteLoadind="isLoading = !isLoading" @execute="execute"></singer-create>
 				<tone-create v-if="newTone"  :token_crsf="token_crsf" @sendMessageDad="messages"  @excuteLoadind="isLoading = !isLoading" @execute="execute"></tone-create>
 				<rhythm-create v-if="newRhythm"  :token_crsf="token_crsf" @sendMessageDad="messages"  @excuteLoadind="isLoading = !isLoading" @execute="execute"></rhythm-create>
@@ -97,7 +97,7 @@
 					</div>
 			</form>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-5">
 				<div  v-if="music" class="container-music mt-5">
 					<h2 style="font-size: 1em; font-weight: bold;">{{ music_name }}</h2>
 					<span v-if="tone" style="font-size: 0.8em; font-weight: bold;">Tom: {{ tone.tone }}</span>

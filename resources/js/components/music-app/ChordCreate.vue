@@ -19,7 +19,11 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-sm btn-success mt-2" type="button" @click="submit(state)">Salvar acorde</button>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-sm btn-success mt-2" type="button" @click="submit(state)">Salvar acorde</button>
+                        <button class="btn btn-sm btn-secondary mt-2" type="button" @click="cleanChord">Limpar acorde</button>
+                    </div>
+                    
                 </form>
             </div>
             
@@ -130,6 +134,19 @@ const state = reactive({
     { coluna_5_corda_0: '', coluna_5_corda_1: '', coluna_5_corda_2: '', coluna_5_corda_3: '', coluna_5_corda_4: '' }
   ]
 });
+
+
+const cleanChord = ( ) => {
+    state.title = '';
+    state.lines = [
+        { coluna_0_corda_0: '', coluna_0_corda_1: '', coluna_0_corda_2: '', coluna_0_corda_3: '', coluna_0_corda_4: '' },
+        { coluna_1_corda_0: '', coluna_1_corda_1: '', coluna_1_corda_2: '', coluna_1_corda_3: '', coluna_1_corda_4: '' },
+        { coluna_2_corda_0: '', coluna_2_corda_1: '', coluna_2_corda_2: '', coluna_2_corda_3: '', coluna_2_corda_4: '' },
+        { coluna_3_corda_0: '', coluna_3_corda_1: '', coluna_3_corda_2: '', coluna_3_corda_3: '', coluna_3_corda_4: '' },
+        { coluna_4_corda_0: '', coluna_4_corda_1: '', coluna_4_corda_2: '', coluna_4_corda_3: '', coluna_4_corda_4: '' },
+        { coluna_5_corda_0: '', coluna_5_corda_1: '', coluna_5_corda_2: '', coluna_5_corda_3: '', coluna_5_corda_4: '' }
+    ];
+}
 
 const submit = (() => {
    const fields = {
