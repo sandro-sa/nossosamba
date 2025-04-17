@@ -319,7 +319,7 @@ const adicionarClasseAcorde = (texto) => {
     
     if (acorde.trim() && acorde !== " " && acorde !== "&nbsp;" && acorde !== "^") {
 		acorde = salvaAcordeArray(acorde);
-      	resultado += `<span class="acorde ${acorde} m-0 p-0 ">${acorde}</span>`;
+      	resultado += `<span class="acorde ${acorde} ">${acorde}</span>`;
 
     } else if (acorde === "^") {
       	resultado += '^'; 
@@ -339,7 +339,7 @@ const adicionarClasseAcorde = (texto) => {
     if (paragrafo === "") return '';
 	if (index % 2 === 1 && paragrafo.trim()) {
       	paragrafo = adicionarClasseAcorde(paragrafo);
-		  paragrafo = `<p class="m-0 p-0 mt-1" style="font-size: 0.8em; font-style: italic; line-height: 0.8; color:green;">${paragrafo}</p>`;
+		  paragrafo = `<p class="m-0 p-0 mt-1" style="font-size: 0.8em; line-height: 1.5; font-weight: bold; color:green;">${paragrafo}</p>`;
     	return 	paragrafo;
     }else{
 		paragrafo = `<p class="m-0 p-0" style="font-size: 0.8em; line-height: 1.5; font-weight: bold; ">${paragrafo}</p>`;

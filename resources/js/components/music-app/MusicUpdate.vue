@@ -2,7 +2,7 @@
 	<alert-loading :msg="msg" :isLoading="isLoading" :alert="alert"></alert-loading>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-8">
+			<div class="col-md-7">
 				<singer-create v-if="newSinger"  :token_crsf="token_crsf" @sendMessageDad="messages"  @excuteLoadind="isLoading = !isLoading" @execute="execute"></singer-create>
 				<tone-create v-if="newTone"  :token_crsf="token_crsf" @sendMessageDad="messages"  @excuteLoadind="isLoading = !isLoading" @execute="execute"></tone-create>
 				<rhythm-create v-if="newRhythm"  :token_crsf="token_crsf" @sendMessageDad="messages"  @excuteLoadind="isLoading = !isLoading" @execute="execute"></rhythm-create>
@@ -98,7 +98,7 @@
 					</div>
 			</form>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-5">
 				<div  v-if="music" class="container-music mt-5">
 					<h2 style="font-size: 1em; font-weight: bold;">{{ music_name }}</h2>
 					<span v-if="tone" style="font-size: 0.8em; font-weight: bold;">Tom: {{ tone.tone }}</span>
@@ -345,7 +345,7 @@ const adicionarClasseAcorde = (texto) => {
     
     if (acorde.trim() && acorde !== " " && acorde !== "&nbsp;" && acorde !== "^") {
 		acorde = salvaAcordeArray(acorde);
-      	resultado += `<span class="acorde ${acorde} m-0 p-0">${acorde}</span>`;
+      	resultado += `<span class="acorde ${acorde} ">${acorde}</span>`;
 
     } else if (acorde === "^") {
       	resultado += '^'; 
@@ -359,16 +359,16 @@ const adicionarClasseAcorde = (texto) => {
 
 };
 
-  let paragrafos = htmlContent.split(/<\/p>\s*<p>|<\/p>$|<p>/);
+let paragrafos = htmlContent.split(/<\/p>\s*<p>|<\/p>$|<p>/);
   paragrafos = paragrafos.map((paragrafo, index) => {
     paragrafo = paragrafo.trim();
     if (paragrafo === "") return '';
 	if (index % 2 === 1 && paragrafo.trim()) {
       	paragrafo = adicionarClasseAcorde(paragrafo);
-		  paragrafo = `<p class="m-0 p-0 mt-1" style="font-size: 0.6em; line-height: 0.8; color:blue; ">${paragrafo}</p>`;
+		  paragrafo = `<p class="m-0 p-0 mt-1" style="font-size: 0.8em; line-height: 1.5; font-weight: bold; color:green;">${paragrafo}</p>`;
     	return 	paragrafo;
     }else{
-		paragrafo = `<p class="m-0 p-0" style="font-size: 0.8em; line-height: 1.5; font-weight: 600;">${paragrafo}</p>`;
+		paragrafo = `<p class="m-0 p-0" style="font-size: 0.8em; line-height: 1.5; font-weight: bold; ">${paragrafo}</p>`;
 
     	return 	paragrafo;
 	}
