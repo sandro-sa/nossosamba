@@ -148,6 +148,7 @@ const config = {
    headers: {
        'Content-Type': 'multipart/form-data',
        'Accept': 'application/json',
+	   'X-CSRF-TOKEN': props.token_crsf, 
    }
 };
 

@@ -30,7 +30,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/letra/{id}/{param?}', [ShowMusicController::class,'index']);
 Route::get('/cifras/{chord}', [ShowChordsController::class,'index'])->name('chord');
 
-//Route::middleware(['auth', 'web'])->group(function () {
+Route::middleware(['auth', 'web'])->group(function () {
     
     Route::get('/musica', [MusicController::class, 'index'])->name('musica');
     Route::post('logout',[LoginController::class,'logout'])->name('logout');
@@ -43,4 +43,4 @@ Route::get('/cifras/{chord}', [ShowChordsController::class,'index'])->name('chor
     Route::get('lista/musicas/{id}', [ShowSingerMusicsController::class, 'index'])->name('lista.musicas');
     Route::get('ver/musica/', [ShowSingerMusicController::class, 'index'])->name('ver.musica');
 
-//});
+});
