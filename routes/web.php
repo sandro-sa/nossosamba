@@ -34,7 +34,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     
     Route::get('/musica', [MusicController::class, 'index'])->name('musica');
     Route::post('logout',[LoginController::class,'logout'])->name('logout');
-    Route::get('/acorde', [ChordController::class, 'index'])->name('acorde');
     Route::get('/musico', [SingerController::class, 'index'])->name('musico');
     Route::get('/editor', [MusicCreateController::class, 'index'])->name('editor');
     Route::get('/atualizar/{id}', [MusicUpdateController::class, 'index']);
@@ -42,5 +41,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/ritimo', [RhythmController::class, 'index'])->name('ritimo');
     Route::get('lista/musicas/{id}', [ShowSingerMusicsController::class, 'index'])->name('lista.musicas');
     Route::get('ver/musica/', [ShowSingerMusicController::class, 'index'])->name('ver.musica');
-
+    
 });
+Route::get('/acorde', [ChordController::class, 'index'])->name('acorde');

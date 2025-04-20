@@ -81,11 +81,8 @@ class ChordController extends Controller{
             }
             
             array_push($existingPositions,$newPosition);
-
             $chord->chord_positions = json_encode($existingPositions);
-
             $chord->save();
-
             return true;
 
         } else {

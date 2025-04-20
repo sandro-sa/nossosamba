@@ -151,6 +151,18 @@ onMounted(() => {
     .card {
       display: none;
     }
+    .dropdown{
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+    .btn-primary,
+    .btn-secondary {
+      width: 100% !important;
+    }
+    .dropdown-menu {
+      min-width: 100% !important;
+    }
     
 	}
 

@@ -86,10 +86,14 @@ class RetornaListaDeNomesEhPosicaoOndeInciaOhAcorde{
             }
             
         }
-   
-        
         asort($nova__lista_de_acordes);
-        return $nova__lista_de_acordes;
 
+        
+        foreach ($nova__lista_de_acordes as $key => $value) {
+            if ($value >= 9) {
+                unset($nova__lista_de_acordes[$key]);
+            }
+        }
+        return $nova__lista_de_acordes;
     }
 }

@@ -1,9 +1,7 @@
 <template>
 	<div class="container">
-
-
 		<div class="row">
-			<div class="col-md-5">
+			<div class="col-xl-5 col-md-12">
                 <span class="info">
                     <h2 style="font-size: 1em; font-weight: bold;">{{music.singer.singer_name}}</h2>
                     <h2 style="font-size: 1em; font-weight: bold;">{{ music.music_name }}</h2>
@@ -86,7 +84,7 @@
 
 			</div>
 
-			<div class="col-md-7 all-chords">
+			<div class="col-xl-7 all-chords">
 				<template v-if="chords">
         			<chords-list-wrap :token_crsf="token_crsf" :chords="chords" :delete="false" ></chords-list-wrap>
     			</template>
@@ -323,6 +321,7 @@ const enableDynamicTooltip = (element, chord) => {
     .box{
         margin-bottom: 5px;
     }
+    
 }
 
 </style>

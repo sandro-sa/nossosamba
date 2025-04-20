@@ -3,8 +3,7 @@
 
 trait TraitFixaAcordeNoInicioDaEscala{
 
-    use TraitPreencheAcordeQueFaltam;
-
+    
     public static function fixarAcordeNoIncioDaEscala($acorde, $tamanhoDoAcorde, $posicaoDoNovoAcorde){
        
         $coluna_que_inicia_o_acorde =  6 - $tamanhoDoAcorde ;
