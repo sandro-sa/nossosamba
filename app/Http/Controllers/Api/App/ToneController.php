@@ -12,7 +12,7 @@ class ToneController extends Controller
 {
     public function index()
     {
-        $tone = Tone::all();
+       $tone = Tone::orderByRaw("FIELD(tone, 'C', 'D', 'E', 'F', 'G', 'A', 'B','Cm', 'Dm', 'Em', 'Fm', 'Gm', 'Am', 'Bm','Cb', 'Db', 'Eb', 'Fb', 'Gb', 'Ab', 'Bb','Cbm', 'Dbm', 'Ebm', 'Fbm', 'Gbm', 'Abm', 'Bbm')")->get();
         return ToneResource::collection($tone);
     }
     public function store(ToneRequest $request)

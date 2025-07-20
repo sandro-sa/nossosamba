@@ -84,6 +84,12 @@ import ShowMusic from './components/web/ShowMusic.vue';
 app.component('show-music', ShowMusic);
 
 import ShowChord from './components/web/ShowChord.vue';
-app.component('show-chord', ShowChord)
+app.component('show-chord', ShowChord);
+
+import CreateRepertoire from './components/web/CreateRepertoire.vue';
+app.component('create-repertoire', CreateRepertoire);
+
+import ShowRepertoire from './components/web/ShowRepertoire.vue';
+app.component('show-repertoire', ShowRepertoire);
 
 app.mount('#app');

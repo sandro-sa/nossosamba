@@ -17,6 +17,7 @@ use App\Http\Controllers\Web\AppWeb\ShowMusicController;
 use App\Http\Controllers\Web\AppWeb\ShowChordsController;
 use App\Http\Controllers\Web\App\ShowSingerMusicController;
 use App\Http\Controllers\Web\App\ShowSingerMusicsController;
+use App\Http\Controllers\Web\AppWeb\RepertoireController;
 
 //Auth::routes();
 
@@ -29,6 +30,7 @@ Route::post('login',[LoginController::class,'login'])->name('login');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/letra/{id}/{param?}', [ShowMusicController::class,'index']);
 Route::get('/cifras/{chord}', [ShowChordsController::class,'index'])->name('chord');
+Route::get('/repertorios', [RepertoireController::class,'index'])->name('repertorios');
 
 Route::middleware(['auth', 'web'])->group(function () {
     

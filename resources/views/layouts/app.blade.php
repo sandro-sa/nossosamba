@@ -2,7 +2,7 @@
 	$url=  Route::currentRouteName();
 @endphp
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="pt-BR">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -68,10 +68,11 @@
 						<li class="nav-item">
 							<a  class="nav-link @if($url ==  'chord' ) active @endif"  aria-current="page"  data-bs-toggle="offcanvas" href="#offcanvasExample"  aria-controls="offcanvasExample">Cifras</a>
 						</li>
-					@auth
-							<li class="nav-item">
-								<a  class="nav-link " aria-current="page" href="#">Repertórios</a>
+						<li class="nav-item">
+								<a  class="nav-link " aria-current="page" href="{{route('repertorios')}}">Repertórios</a>
 							</li>
+					@auth
+							
 							<li class="nav-item">
 								<a class="nav-link @if($url ==  'editor' )active @endif" href="{{route('editor')}}">Inserir musica</a>
 							</li>
