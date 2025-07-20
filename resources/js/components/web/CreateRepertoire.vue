@@ -153,6 +153,22 @@ const returnCath = ((e) => {
 	messages(retornCatch[0],retornCatch[1])
 });
 
-onMounted(() => execute() );
+
+const closeFullScreen  = () => {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) { // Para Firefox
+        document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) { // Para Chrome, Safari e Opera
+        document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { // Para Internet Explorer/Edge
+        document.msExitFullscreen();
+    }
+}
+
+onMounted(() => { 
+    execute();
+    closeFullScreen();
+} );
 
 </script>
