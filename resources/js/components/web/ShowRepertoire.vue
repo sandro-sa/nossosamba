@@ -3,8 +3,8 @@
         <template v-if="props.musics">
             <template v-for="music in musics">
                 <div class="velocidade">
-                    <p class="titulo m-0 p-0 ">##{{ music.music_name }} ##</p>
-                    <p class="titulo m-0 p-0 ">##{{ music.singer.singer_name }} </p>
+                    <p class="titulo m-0 p-0 " style="font-size: 0.8em;">##{{ music.music_name }} ##</p>
+                    <p class="titulo m-0 p-0 " style="font-size: 0.8em;">##{{ music.singer.singer_name }} </p>
                     <p class="m-0 p-0">Introdução: {{ music.introduction }}</p>
                     <span class="music m-0 p-0" v-html="music.music"></span>
                     <hr>
@@ -82,6 +82,11 @@ const scrollToVelocidade = () => {
 
     .mt-1{
         margin-top: .05rem !important;
+    }
+
+    p{
+        margin: 0px;
+        padding: 0px;
     }
 
 </style>
