@@ -1,12 +1,12 @@
 <template>
-    <div class="container-fluid">
-
+    <div class="container">
         <template v-if="props.musics">
-            <template v-for="music in musics" class="list-group">
-                <div class="velocidade 350 D2">
-                    <p class="titulo m-0 p-0 ">##{{ music.singer.singer_name }} | {{ music.music_name }} ##</p>
+            <template v-for="music in musics">
+                <div class="velocidade">
+                    <p class="titulo m-0 p-0 ">##{{ music.music_name }} ##</p>
+                    <p class="titulo m-0 p-0 ">##{{ music.singer.singer_name }} </p>
                     <p class="m-0 p-0">Introdução: {{ music.introduction }}</p>
-                    <div class="music m-0 p-0" v-html="music.music"></div>
+                    <span class="music m-0 p-0" v-html="music.music"></span>
                     <hr>
                 </div>
             </template>
@@ -55,6 +55,10 @@ const scrollToVelocidade = () => {
 
 </script>
 <style scoped>
+.container-fluid{
+    margin: 0px;
+    padding: 0px;
+}
     .fixed-footer-buttons {
         position: fixed; /* Fixa no rodapé da tela */
         bottom: 0; /* Alinha ao fundo da tela */
@@ -67,5 +71,12 @@ const scrollToVelocidade = () => {
 
     .fixed-footer-buttons .btn {
         margin: 0 5px;
+    }
+     .music {
+        word-wrap: break-word; /* Força a quebra de palavra quando ela ultrapassar a largura */
+        white-space: normal;   /* Garante que o texto possa quebrar normalmente */
+        display: block;        /* Faz o span se comportar como um bloco, garantindo a quebra de linha */
+        width: 100%;            /* Garante que o conteúdo ocupe 100% da largura disponível */
+        word-break: break-word; /* Quebra a palavra longa se necessário */
     }
 </style>

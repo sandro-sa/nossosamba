@@ -44,10 +44,7 @@
         </template>
 	</div>
 
-    
-
     <show-repertoire v-if="showMusics" :musics="musics"  @back="showMusics = !showMusics"></show-repertoire>
-    
     
 </template>
   
