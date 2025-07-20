@@ -25,10 +25,8 @@ class MusicController extends Controller
     public function store(MusicRequest $request)
     {
         $fields = $request->validated();
-        $composers = $fields['composers'];
+
         $fields['music_name'] = Str::upper($fields['music_name'] );
-        $composersArray = explode(", ", $composers);
-        $composersArray = array_map('strtoupper', $composersArray);
         $fields['chords'] = json_encode($fields['chords']);
         $music = Music::where('music_name', $fields['music_name'])->where('singer_id', $fields['singer_id'])->first();
         if ($music instanceof Music) {
@@ -36,9 +34,12 @@ class MusicController extends Controller
             
         } else {
             $newMusic = Music::create($fields);
-            
-            $this->storeComposers($newMusic,$composersArray, false);
-            
+            if($fields['composers']){
+                $composers = $fields['composers'];
+                $composersArray = explode(", ", $composers);
+                $composersArray = array_map('strtoupper', $composersArray);
+                $this->storeComposers($newMusic,$composersArray, false);
+            }
             return new MusicResource($newMusic);
         }
         
