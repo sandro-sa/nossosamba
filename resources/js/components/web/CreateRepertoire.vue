@@ -44,7 +44,7 @@
         </template>
 	</div>
 
-    <show-repertoire v-if="showMusics" :musics="musics"  @back="showMusics = !showMusics"></show-repertoire>
+    <show-repertoire v-if="showMusics" :musics="musics"  @back="showMusics = !showMusics , closeFullScreen();"></show-repertoire>
     
 </template>
   
@@ -168,7 +168,6 @@ const closeFullScreen  = () => {
 
 onMounted(() => { 
     execute();
-    closeFullScreen();
 } );
 
 </script>
