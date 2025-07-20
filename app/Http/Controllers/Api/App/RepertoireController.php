@@ -19,7 +19,7 @@ class RepertoireController extends Controller
         $tone_id = $request["tone_id"];
 
         // Inicia a consulta
-        $musics = Music::where('rhythm_id', $rhythm_id);
+        $musics = Music::where('rhythm_id', $rhythm_id)->inRandomOrder();
 
         // Adiciona a condição de 'tone_id', se fornecido
         if ($tone_id) {

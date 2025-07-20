@@ -1,6 +1,6 @@
 <template>
     <alert-loading :msg="msg" :isLoading="isLoading" :alert="alert"></alert-loading>
-	<div class="container" v-if="!showMusics">
+	<div class="container-fluid" v-if="!showMusics">
         <h2 class="text-start">Criar repertório aleatório</h2>
         <form  @submit.prevent="createRepertoire">
 		<div class="row">
@@ -31,14 +31,15 @@
 
         <template v-if="musics">
              <div class="row">
-                <div class="col-6">
+                 <div class="d-flex justify-content-end">
+                    <button class="btn btn-sm btn-primary mt-2 "  type="buttom" @click="show()"  @back="showMusics = !showMusics"> Ver Repertório</button>
+                </div>
+                <div class="">
                     <ul v-for="music in musics"  class="list-group">
                         <li class="list-group-item">{{music.music_name}}</li>
                     </ul>
                 </div>
-                <div class="col-6">
-                    <button class="btn btn-sm btn-primary mt-2 "  type="buttom" @click="show()"  @back="showMusics = !showMusics"> Ver Repertório</button>
-                </div>
+               
             </div>
         </template>
 	</div>

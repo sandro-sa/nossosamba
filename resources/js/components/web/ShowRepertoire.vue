@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
 
         <template v-if="props.musics">
             <template v-for="music in musics" class="list-group">
