@@ -72,11 +72,16 @@ const scrollToVelocidade = () => {
     .fixed-footer-buttons .btn {
         margin: 0 5px;
     }
-     .music {
+    .music {
         word-wrap: break-word; /* Força a quebra de palavra quando ela ultrapassar a largura */
         white-space: normal;   /* Garante que o texto possa quebrar normalmente */
         display: block;        /* Faz o span se comportar como um bloco, garantindo a quebra de linha */
         width: 100%;            /* Garante que o conteúdo ocupe 100% da largura disponível */
         word-break: break-word; /* Quebra a palavra longa se necessário */
     }
+
+    .mt-1{
+        margin-top: .05rem !important;
+    }
+
 </style>
