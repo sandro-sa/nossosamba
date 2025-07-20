@@ -95,9 +95,8 @@
 </template>
   
 <script setup>
-import { onMounted } from 'vue';
-import urls from '@/utils/urls';
 
+import urls from '@/utils/urls';
 
 const props = defineProps(["token_crsf","music","chords","tons", "lista_de_novos_acordes", "mudou_tom"]);
 
@@ -184,20 +183,6 @@ const enableDynamicTooltip = (element, chord) => {
     showTooltip(e);
   });
 };
-
-const openFullScreen = () => {
-    if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen();
-    } else if (document.documentElement.mozRequestFullScreen) { // Para Firefox
-        document.documentElement.mozRequestFullScreen();
-    } else if (document.documentElement.webkitRequestFullscreen) { // Para Chrome, Safari e Opera
-        document.documentElement.webkitRequestFullscreen();
-    } else if (document.documentElement.msRequestFullscreen) { // Para Internet Explorer/Edge
-        document.documentElement.msRequestFullscreen();
-    }
-}
-
-onMounted(() => openFullScreen() );
 </script>
 <style scoped>
 
