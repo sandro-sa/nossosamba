@@ -90,7 +90,8 @@ class RetornaListaDeNomesEhPosicaoOndeInciaOhAcorde{
 
         
         foreach ($nova__lista_de_acordes as $key => $value) {
-            if ($value >= 9) {
+            if ($value > 12) {
+                //dd('2',$nova__lista_de_acordes);
                 unset($nova__lista_de_acordes[$key]);
             }
         }

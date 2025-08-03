@@ -92,4 +92,8 @@ app.component('create-repertoire', CreateRepertoire);
 import ShowRepertoire from './components/web/ShowRepertoire.vue';
 app.component('show-repertoire', ShowRepertoire);
 
+import ShowRepertoireSort from './components/web/ShowRepertoireSort.vue';
+app.component('show-repertoire-sort', ShowRepertoireSort);
+
+
 app.mount('#app');

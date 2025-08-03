@@ -9,7 +9,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('composer_music', function (Blueprint $table) {
-            
             $table->foreignId('composer_id')->constrained('composers','id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('music_id')->constrained('musics','id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->primary(['composer_id', 'music_id']);

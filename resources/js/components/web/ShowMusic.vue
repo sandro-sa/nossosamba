@@ -1,8 +1,62 @@
 <template>
+    <alert-loading :msg="msg" :isLoading="isLoading" :alert="alert"></alert-loading>
 	<div class="container">
 		<div class="row">
 			<div class="col-xl-5 col-md-12">
                 <span class="info">
+
+                <div v-if="modalRepertorie && isLoggedIn" class="card mb-1" >
+                    <h5 class="card-header">Meus Repertorios</h5>
+                    <div class="card-body ">
+                        <select v-if="repertoires.length != 0" class="form-select" aria-label="Default select example" v-model="repertoireId" >
+                            <option selected>Escolha o repertorio</option>
+                            <template v-for="repertorie in repertoires">
+                                <option :value="repertorie.id">{{repertorie.name}}</option>
+                            </template>
+                        </select>
+                        <p v-else>Não há repertorio cadastrado!</p>
+                        
+                        <div class="d-flex justify-content-between mt-2">
+                            <div>
+                                <button type="button" class="btn btn-sm btn-dark" @click="modalNewRepertoire = !modalNewRepertoire,modalRepertorie = !modalRepertorie " >Cadastrar repertorio</button>
+
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-sm btn-secondary me-2" @click="modalRepertorie = !modalRepertorie, addRepertorie = !addRepertorie " >Voltar</button>
+                                <button type="button" class="btn btn-sm btn-primary" @click="submitNewMusicRepertoire()">Adiconar</button>
+
+                            </div>
+                        </div>
+                    </div>       
+                </div> 
+
+
+                 <div v-if="modalNewRepertoire && isLoggedIn" class="card mb-1" >
+                    <h5 class="card-header">Criar repertorio</h5>
+                    <div class="card-body ">
+                       
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" v-model="repertoireName" placeholder="Inserir nome do repertorio" >
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-2">
+                
+                        
+                            <button type="button" class="btn btn-sm btn-secondary me-2" @click="modalNewRepertoire = !modalNewRepertoire,  addRepertorie = !addRepertorie " >Voltar</button>
+                            <button type="button" class="btn btn-sm btn-primary" @click="submit()">Salvar</button>
+
+                            
+                        </div>
+                    </div>       
+                </div> 
+
+
+
+                <div class="d-flex justify-content-end">
+                    <button v-if="isLoggedIn && addRepertorie"  class="btn btn-sm btn-primary mb-1" type="button" @click="modalRepertorie = !modalRepertorie,addRepertorie = !addRepertorie  " >Adicionar ao repertorio</button>
+                </div>
+
+
                     <h2 style="font-size: 1em; font-weight: bold;">{{music.singer.singer_name}}</h2>
                     <h2 style="font-size: 1em; font-weight: bold;">{{ music.music_name }}</h2>
                     <span style="font-size: 0.8em; font-weight: bold;">De: {{ music.composers}}</span>
@@ -16,7 +70,7 @@
                     <ul class="dropdown-menu " style="max-width: 200px;">
                         <div class="row">
                             <li v-for="(nota, index) in convertForArray(tons)" :key="index" class="col-4" >
-                                <a class="dropdown-item" :href="url+'letra/'+ music.id+'/'+nota.posicao">{{ nota.tom }}</a>
+                                <a  class="dropdown-item" :href="url+'letra/'+ music.id+'/'+nota.posicao">{{ nota.tom }}</a>
                             </li>
                         </div>
                     </ul>
@@ -95,12 +149,44 @@
 </template>
   
 <script setup>
-
+import { ref, onMounted } from 'vue';
+import { useRhythms } from '@/store/rhythms.js';
 import urls from '@/utils/urls';
-
+import{ catchDefault } from '@/utils/messagesCatch';
+const isLoading = ref(false);
+const alert = ref(false);
+const msg = ref(false);
 const props = defineProps(["token_crsf","music","chords","tons", "lista_de_novos_acordes", "mudou_tom"]);
-
 const url = urls.url;
+const isLoggedIn = ref(window.Laravel?.isLoggedIn || false);
+const api_repertoire = urls.api+'repertoires';
+const api_song = urls.api+'songs';
+const rhythmStore = useRhythms();
+const repertoires = ref(false);
+const modalNewRepertoire = ref(false);
+const modalRepertorie = ref(false);
+const addRepertorie = ref(true);
+const repertoireName = ref(null);
+const repertoireId = ref(null);
+
+const config = {
+   headers: {
+       'Content-Type': 'multipart/form-data',
+       'Accept': 'application/json',
+   }
+};
+
+const messages = ((text, type ) => {
+    msg.value = text;
+    alert.value = type;
+    setTimeout(() =>{
+        resetMessages();
+    }, 2000)
+});
+const resetMessages = (( ) => {
+    msg.value = false;
+    alert.value = false;
+});
 
 
 const letra = (() => {
@@ -127,7 +213,6 @@ const letra = (() => {
     }
 });
 
-
 const introducao = (() => {
     if (props.mudou_tom) {
   
@@ -144,7 +229,6 @@ const introducao = (() => {
         return props.music.introduction;
     }
 });
-
 
 const convertForArray = ((json) => {
     let parsedArray = JSON.parse(json);
@@ -168,8 +252,8 @@ const enableDynamicTooltip = (element, chord) => {
   const showTooltip = (e) => {
     tooltip.innerHTML = content;
     tooltip.style.display = "block";
-    tooltip.style.left = `${e.pageX + 15}px`;
-    tooltip.style.top = `${e.pageY + 15}px`;
+    tooltip.style.left = `${e.api_repertoireX + 15}px`;
+    tooltip.style.top = `${e.api_repertoireY + 15}px`;
   };
 
   const hideTooltip = () => {
@@ -183,8 +267,103 @@ const enableDynamicTooltip = (element, chord) => {
     showTooltip(e);
   });
 };
+
+const submit = (() => {
+
+    if(!repertoireName.value){
+        return messages('Insira o nome do repertorio!','alert-danger')
+    }
+   const fields = {
+        _method:'POST',
+        name: repertoireName.value,
+    }
+    return rhythmStore.insert(api_repertoire, fields, config)
+    .then((response) => {
+        if(response.request.status === 200 || response.request.status === 201 ){
+            repertoireName.value = null;
+            modalNewRepertoire.value = !modalNewRepertoire.value;
+            addRepertorie.value = !addRepertorie.value
+            getRepertorie();
+            messages("Novo repertorio salvo!", "alert-success")
+        }
+    })
+    .catch((e) => {
+        returnCath(e);
+    })
+});
+
+const submitNewMusicRepertoire = (() => {
+
+    const pathParts = window.location.pathname.split('/');
+    const tom = Number(pathParts[3]);  // 3
+
+    if(!repertoireId.value || repertoireId.value == null ){
+        return messages('Selecione o repertorio!','alert-danger')
+    }
+   const fields = {
+        _method:'POST',
+        music_id :props.music.id,
+        tom:  tom || 0,
+    }
+
+    console.log(fields)
+    
+    return rhythmStore.insert( `${urls.api}repertoires/${repertoireId.value}/musics`, fields, config)
+    .then((response) => {
+        if(response.request.status === 200 || response.request.status === 201 ){
+            repertoireName.value = null;
+            addRepertorie.value = !addRepertorie.value;
+            modalRepertorie.value= !modalRepertorie.value;
+            getRepertorie();
+            messages("Musica inserida no repertorio", "alert-success")
+        }
+    })
+    .catch((e) => {
+        returnCath(e);
+    })
+});
+
+const getRepertorie = (async () => {
+   
+    return await rhythmStore.get(api_repertoire, config)
+    .then( response => {
+        repertoires.value = response.data.data;
+        console.log( repertoires.value)
+    })
+    .catch((e) => {
+        console.error("Erro: ",e)
+    })
+   
+});
+
+const returnCath = ((e) => {
+	const retornCatch = catchDefault(e);
+	messages(retornCatch[0],retornCatch[1])
+});
+
+
+
+onMounted( () => {
+
+  if (isLoggedIn.value) {
+    getRepertorie();
+  }
+}) ;
 </script>
 <style scoped>
+
+.card{
+    border: solid, 1px, #89443d ;
+    background-color: #fff;
+    color: #89443d;
+}
+
+.form-select{
+    background-color: #fff;
+}
+.form-control{
+    background-color: #fff;
+}
 
 .btn-tom{
   margin: 0px;

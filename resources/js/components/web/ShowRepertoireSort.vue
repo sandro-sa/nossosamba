@@ -1,18 +1,12 @@
 <template>
-  
     <div class="container-fluid">
-        <div class="d-flex justify-content-end">
-            <button @click="openFullScreen" class="btn btn-dark btn-sm mt-2">Tela cheia</button>
-
-        </div>
         <template v-if="props.musics">
             <template v-for="music in musics">
-
                 <div class="velocidade">
-                    <p class="titulo m-0 p-0 " style="font-size: 0.7em;">##{{ introducao(music[0].music_name,music[1], music[2]) }} ##</p>
-                    <p class="titulo m-0 p-0 " style="font-size: 0.7em;">##{{ music[0].singer.singer_name }} </p>
-                    <p class="m-0 p-0" style="font-size: 0.7em;">Introdução: {{ music[0].introduction }}</p>
-                    <span class="music m-0 p-0" v-html="letra(music[0].music, music[1], music[2])"></span>
+                    <p class="titulo m-0 p-0 " style="font-size: 0.7em;">##{{ music.music_name }} ##</p>
+                    <p class="titulo m-0 p-0 " style="font-size: 0.7em;">##{{ music.singer.singer_name }} </p>
+                    <p class="m-0 p-0" style="font-size: 0.7em;">Introdução: {{ music.introduction }}</p>
+                    <span class="music m-0 p-0" v-html="music.music"></span>
                     <hr>
                 </div>
             </template>
@@ -20,12 +14,13 @@
     </div>  
 
     <div class="fixed-footer-buttons d-flex justify-content-end">
+        <button class="btn btn-sm btn-dark mt-2 me-4" :musics="musics" type="button" @click="$emit('back')">Voltar</button>
         <button class="" id="nextMusic" @click="scrollToVelocidade()"><i class="bi bi-caret-right-fill"></i></button>
     </div>
 </template>
 
 <script setup>
-
+import { onMounted} from 'vue';
 const props = defineProps(['token_crsf', 'musics']);
 
 
@@ -66,46 +61,7 @@ const openFullScreen = () => {
     }
 }
 
-const letra = (( music, mudou_tom,acordes) => {
-
-    if (mudou_tom) {
-    
-        const alterarAcordes = (textoHtml, listaDeNovosAcordes) => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(textoHtml, 'text/html');
-            const acordes = doc.querySelectorAll('span.acorde');
-
-            acordes.forEach((acordeSpan) => {
-                const acordeOriginal = acordeSpan.textContent.trim();
-                if (listaDeNovosAcordes[acordeOriginal]) {
-                    acordeSpan.textContent = listaDeNovosAcordes[acordeOriginal];
-                }
-            });
-            return doc.body.innerHTML;
-        };
-        const textoHtmlAlterado = alterarAcordes(music, acordes);
-        return textoHtmlAlterado;
-    } else {
-        return music;
-    }
-});
-
-const introducao = ((introducao, mudou_tom,acordes) => {
-    if (mudou_tom) {
-  
-        const alterarAcordes = (texto, listaDeNovosAcordes) => {
-            const regex = /\b([A-Ga-g#]+[0-9]?[a-zA-Z]*)\b/g;
-            return texto.replace(regex, (match) => {
-                return listaDeNovosAcordes[match] || match;
-            });
-        };
-        const novaIntroducao = alterarAcordes(introducao, acordes);
-
-        return novaIntroducao;
-    } else {
-        return introducao;
-    }
-});
+onMounted(() => openFullScreen() );
 
 </script>
 <style scoped>

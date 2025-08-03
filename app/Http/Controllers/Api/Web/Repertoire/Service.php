@@ -1,13 +1,12 @@
 <?php
 
-namespace  App\Http\Controllers\Web\AppWeb;
+namespace App\Http\Controllers\Api\Web\Repertoire;
 
 use App\Models\Music\Chord;
 use App\Models\Music\Music;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\Api\App\ChordService\RetornaListaDeNomesEhPosicaoOndeInciaOhAcorde;
 
-class ShowMusicController extends Controller
+class Service
 {
     private $escalaMaior = [
         "C"  => 1, "C#" => 2, "Db" => 2, "D" => 3,
@@ -58,13 +57,20 @@ class ShowMusicController extends Controller
         "B" => 12
     ];
 
-    public function index($id, $posicaoDoNovoTom = null)
-    {
-        $music = Music::where('id',$id)->first();
+    public  $id;
+    public $posicaoDoNovoTom;
 
-        if(!$music){
-            return view('error.not-found');
-        }
+    public function __construct($id,$posicaoDoNovoTom)
+    {
+        $this->id = $id;
+        $this->posicaoDoNovoTom = $posicaoDoNovoTom;
+    }
+
+    public function index()
+    {
+        
+        $music = Music::where('id',$this->id)->first();
+
         $tom = $this->retornaTom($music->tone->tone);
         $acordeEhMenor = $this->verificaSeAcordeEhMenor($music->tone->tone);
         //Aqui entra o tipo da escala (sustenido ou bemol)
@@ -82,16 +88,17 @@ class ShowMusicController extends Controller
         $arrayChords = json_decode($music->chords);
         $listaDeAcordeParaMudarTom = false;
 
-        if($posicaoDoNovoTom != null){
-            if($posicaoDoNovoTom < $posicao || $posicaoDoNovoTom > $posicao){
-                $novaPosicao = $posicao - $posicaoDoNovoTom;
+       
+        if($this->posicaoDoNovoTom != null){
+            if($this->posicaoDoNovoTom < $posicao || $this->posicaoDoNovoTom > $posicao){
+                $novaPosicao = $posicao - $this->posicaoDoNovoTom;
                 $listaDeAcordeParaMudarTom = $this->retornaListaDeAcordeParaMudarTom($arrayChords, $novaPosicao, $acordeEhMenor, $tipoEscala);
                 
                 $arrayChords = $this->retornaNovosAcordes($arrayChords, $novaPosicao, $acordeEhMenor, $tipoEscala);
             }
         }
-
-        $chords = Chord::whereIn('chord_name', $arrayChords)->get();
+ 
+        // $chords = Chord::whereIn('chord_name', $arrayChords)->get();
 
         $tons = [];
         $aux = 0;
@@ -104,20 +111,13 @@ class ShowMusicController extends Controller
 
         $novoTom = false;
         if($listaDeAcordeParaMudarTom){
-           $novoTom = $this->retornaNovoTom($music->tone->tone,$listaDeAcordeParaMudarTom, $posicaoDoNovoTom );
-        }
+           $novoTom = $this->retornaNovoTom($music->tone->tone,$listaDeAcordeParaMudarTom, $this->posicaoDoNovoTom );
+        }        
        
-       $listaDeTons = json_encode($tons);
-       $listaDeAcordeParaMudarTom = json_encode($listaDeAcordeParaMudarTom);
-     //  dd($listaDeAcordeParaMudarTom);
-        $music->load(['tone','singer','rhythm']);
-        return view('web.show-music',[
-            'music' => $music,
-            'chords' => $chords,
-            'listaDeTons' => $listaDeTons,
-            'listaDeAcordeParaMudarTom' => $listaDeAcordeParaMudarTom,
-            "novoTom" => $novoTom,
-        ]);
+        $music->load(['singer']);
+
+        return [$music, $novoTom, $listaDeAcordeParaMudarTom, $novoTom];
+          
       
     }
     private function retornaTom($tomOriginal){

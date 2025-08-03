@@ -346,7 +346,7 @@ const adicionarClasseAcorde = (texto) => {
     
     if (acorde.trim() && acorde !== " " && acorde !== "&nbsp;" && acorde !== "^") {
 		acorde = salvaAcordeArray(acorde);
-      	resultado += `<span class="acorde ${acorde} ">${acorde}</span>`;
+      	resultado += `<span class="acorde m-0 p-0 ${acorde} ">${acorde}</span>`;
 
     } else if (acorde === "^") {
       	resultado += '^'; 
@@ -366,14 +366,13 @@ let paragrafos = htmlContent.split(/<\/p>\s*<p>|<\/p>$|<p>/);
     if (paragrafo === "") return '';
 	if (index % 2 === 1 && paragrafo.trim()) {
       	paragrafo = adicionarClasseAcorde(paragrafo);
-		  paragrafo = `<p class="m-0 p-0 mt-1" style="font-size: 0.8em; line-height: 1.5; font-weight: bold; color:green;">${paragrafo}</p>`;
+		  paragrafo = `<p class="m-0 p-0 mt-1" style="font-size: 0.8em; line-height: 0.9;  color:green;">${paragrafo}</p>`;
     	return 	paragrafo;
     }else{
-		paragrafo = `<p class="m-0 p-0" style="font-size: 0.8em; line-height: 1.5; font-weight: bold; ">${paragrafo}</p>`;
+		paragrafo = `<p class="m-0 p-0" style="font-size: 0.8em; line-height: 0.9; font-weight: 600; ">${paragrafo}</p>`;
 
     	return 	paragrafo;
 	}
-
 	
   });
    return paragrafos.filter(p => p !== '').join(''); // Filtrando paragrafos vazios

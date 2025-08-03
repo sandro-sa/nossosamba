@@ -30,6 +30,15 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 	<link rel="icon" href="{{asset('storage/image/favicon-32x32.png')}}" type="image/x-icon">
     <!-- Scripts -->
+	<script>
+    window.__WS_TOKEN__ = "{{ csrf_token() }}";
+</script>
+	<script>
+		window.Laravel = {
+			isLoggedIn: @json(Auth::check()),
+			user: @json(Auth::user())
+		};
+	</script>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 

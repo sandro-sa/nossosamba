@@ -1,48 +1,8 @@
 <template>
   <alert-loading :msg="msg" :isLoading="isLoading" :alert="alert" />
 
-  <div class="container-fluid" v-if="!showMusicsSort">
-    
-  
-   
-      <div class="all-repertoire" v-if="allRepertoire" >
-          <div 
-          v-for="r in allRepertoire"
-          :key="r.id"
-          class="mb-4 mt-4 p-3 card repertoire"
-          >
-
-          <div class="d-flex justify-content-between align-items-center mb-1"><h5>{{ r.name }}</h5><button class="btn btn-dark btn-sm " @click="goRepertoire(r.id)">Ver Repertorio</button></div> 
-              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Musicas
-              </button>
-
-              <ul class="dropdown-menu">
-                  <draggable
-                      v-model="r.musics"
-                      item-key="id"
-                      group="musics"
-                      @end="onReorder(r)"
-                      handle=".drag-handle"
-                      class="list-group"
-                  >
-                      <template #item="{ element, index }">
-                      <div
-                          class="list-group-item d-flex justify-content-between align-items-center"
-                      >
-                          <span class="drag-handle me-2" style="cursor: grab">☰</span>
-                          <span class="text-muted">
-                          {{ index + 1 }}. {{ element.music_name }}
-                          <small class="text-muted">(Tom: {{ element.tom }})</small>
-                          </span>
-                      </div>
-                      </template>
-                  </draggable>
-              </ul>
-          </div>
-      </div>
-
-      <h2 class="text-start">Criar repertório aleatório</h2>
+  <div class="container-fluid" v-if="!showMusics">
+    <h2 class="text-start">Criar repertório aleatório</h2>
 
     <form @submit.prevent="createRepertoire">
       <div class="row">
@@ -55,7 +15,6 @@
             </option>
           </select>
         </div>
-
 
         <div class="col-md-6">
           <label class="form-label">Escolher Tom</label>
@@ -75,7 +34,7 @@
 
     <div v-if="musics && musics.length" class="row mt-3">
       <div class="d-flex justify-content-end">
-        <button class="btn btn-sm btn-success" @click="showSort">Ver Repertório</button>
+        <button class="btn btn-sm btn-success" @click="show">Ver Repertório</button>
       </div>
 
       <div class="mt-2">
@@ -88,14 +47,42 @@
     </div>
   </div>
 
+  <!-- <div v-if="allRepertoire">
+    <div
+      v-for="r in allRepertoire"
+      :key="r.id"
+      class="mb-4 p-3 border rounded"
+    >
+      <h5>{{ r.name }}</h5>
 
-  <show-repertoire-sort
-    v-if="showMusicsSort"
+      <draggable
+        v-model="r.musics"
+        item-key="id"
+        group="musics"
+        @end="onReorder(r)"
+        handle=".drag-handle"
+        class="list-group"
+      >
+        <template #item="{ element, index }">
+          <div
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            <span class="drag-handle me-2" style="cursor: grab">☰</span>
+            <span>
+              {{ index + 1 }}. {{ element.music_name }}
+              <small class="text-muted">(Tom: {{ element.tom }})</small>
+            </span>
+          </div>
+        </template>
+      </draggable>
+    </div>
+  </div> -->
+
+  <show-repertoire
+    v-if="showMusics"
     :musics="musics"
-    @back="showMusicsSort = false; closeFullScreen();"
+    @back="showMusics = false; closeFullScreen();"
   />
-
-
 </template>
 
 <script setup>
@@ -105,6 +92,7 @@ import { useTone } from '@/store/tone';
 import { useCreateRepertoire } from '@/store/create_repertoire';
 import{ catchDefault } from '@/utils/messagesCatch';
 import urls from '@/utils/urls';
+import ShowRepertoire from './ShowRepertoire.vue';
 import draggable from 'vuedraggable';
 const props = defineProps(['token_crsf']);
 const rhythms = ref(false);
@@ -123,7 +111,7 @@ const pageTone = urls.api+'tone';
 const pageRepertoire = urls.api+'repertoire/sort';
 const api_all_repertoire = urls.api+'repertoire/allRepertoire';
 const { proxy } = getCurrentInstance();
-const showMusicsSort = ref(false);
+const showMusics = ref(false);
 const allRepertoire = ref(null);
 const config = {
    headers: {
@@ -140,9 +128,9 @@ const messageSweet = ((text, type ) => {
     });
 });
 
-const showSort = () => {
-    showMusicsSort.value = !showMusicsSort.value
-    console.log( showMusicsSort.value)
+const show = () => {
+    showMusics.value = !showMusics.value
+    console.log( showMusics.value)
 }
 
 const messages = ((text, type ) => {
@@ -207,47 +195,24 @@ const getRepertorie = (async () => {
     .catch((e) => {
         console.error("Erro: ",e)
     })
+
+   
 });
 
 
-const goRepertoire = (repertoire) => {
-    window.location.href = `${urls.url}repertorios/${repertoire}`;
+const onReorder = (repertoire) => {
+  const positions = repertoire.musics.map((m, index) => ({
+    music_id: m.id,
+    position: index + 1,
+  }));
+
+  axios.put(`/api/repertoires/${repertoire.id}/musics/reorder`, { positions }, config)
+    .then(() => {
+      messageSweet('Ordem atualizada com sucesso', 'success');
+    })
+    .catch(returnCatch);
 };
 
-const onReorder = async (repertoire) => {
-  const original = [...repertoire.musics].sort((a, b) => a.position - b.position);
-
-  const updates = repertoire.musics.map((m, index) => {
-    const originalPosition = original.find(o => o.id === m.id)?.position;
-    return {
-      music_id: m.id,
-      tom: m.tom,
-      position: index + 1,
-      changed: originalPosition !== (index + 1)
-    };
-  }).filter(m => m.changed); // só os que mudaram
-
-  if (updates.length === 0) {
-    console.log("Nada mudou");
-    return;
-  }
-
-  try {
-    await Promise.all(
-      updates.map(item =>
-        rhythmstore.update(
-          `${urls.api}repertoires/${repertoire.id}/musics/${item.music_id}`,
-          { _method:"put", position: item.position, tom: item.tom, music_id: item.music_id },
-          config
-        )
-      )
-    );
-
-    messageSweet('Ordem atualizada com sucesso', 'success');
-  } catch (e) {
-    returnCatch(e);
-  }
-};
 
 const returnCatch = (e) => {
   const [text, type] = catchDefault(e);
@@ -272,17 +237,3 @@ onMounted(() => {
 } );
 
 </script>
-<style scoped>
-.all-repertoire {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem; /* Espaço entre os itens */
-}
-.repertoire {
-  flex: 1 1 300px; /* Cresce, encolhe e começa com 300px */
-  max-width: 100%;
-}
-.text-muted{
-    font-size: 12px;
-}
-</style>

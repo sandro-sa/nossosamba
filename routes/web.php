@@ -31,6 +31,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/letra/{id}/{param?}', [ShowMusicController::class,'index']);
 Route::get('/cifras/{chord}', [ShowChordsController::class,'index'])->name('chord');
 Route::get('/repertorios', [RepertoireController::class,'index'])->name('repertorios');
+Route::get('/repertorios/{repertoire}', [RepertoireController::class,'show'])->name('show-repertorio');
 
 Route::middleware(['auth', 'web'])->group(function () {
     
