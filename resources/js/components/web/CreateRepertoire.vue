@@ -3,8 +3,6 @@
 
   <div class="container-fluid" v-if="!showMusicsSort">
     
-  
-   
       <div class="all-repertoire" v-if="allRepertoire" >
           <div 
           v-for="r in allRepertoire"
@@ -33,7 +31,7 @@
                           <span class="drag-handle me-2" style="cursor: grab">☰</span>
                           <span class="text-muted">
                           {{ index + 1 }}. {{ element.music_name }}
-                          <small class="text-muted">(Tom: {{ element.tom }})</small>
+                        
                           </span>
                       </div>
                       </template>
@@ -68,14 +66,14 @@
         </div>
 
         <div class="d-grid gap-2 mt-3">
-          <button class="btn btn-sm btn-primary" type="submit">Criar</button>
+          <button class="btn btn-sm btn-secondary" type="submit">Criar</button>
         </div>
       </div>
     </form>
 
     <div v-if="musics && musics.length" class="row mt-3">
       <div class="d-flex justify-content-end">
-        <button class="btn btn-sm btn-success" @click="showSort">Ver Repertório</button>
+        <button class="btn btn-sm btn-secondary" @click="showSort">Ver Repertório</button>
       </div>
 
       <div class="mt-2">
@@ -243,7 +241,7 @@ const onReorder = async (repertoire) => {
       )
     );
 
-    messageSweet('Ordem atualizada com sucesso', 'success');
+    messages('Ordem atualizada com sucesso', 'alert-success');
   } catch (e) {
     returnCatch(e);
   }
@@ -281,8 +279,15 @@ onMounted(() => {
 .repertoire {
   flex: 1 1 300px; /* Cresce, encolhe e começa com 300px */
   max-width: 100%;
+  background-color: white;
 }
 .text-muted{
     font-size: 12px;
+}
+.btn-secondary{
+  background-color: #6a2d1a;
+}
+.dropdown-menu, .list-group-item, .form-select{
+  background-color: white;
 }
 </style>

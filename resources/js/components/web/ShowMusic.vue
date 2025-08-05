@@ -484,6 +484,9 @@ onMounted( () => {
     padding: 0px;
     margin-right: 10px;
 }
+.btn-primary{
+    background-color: #6a2d1a;
+}
 @media only screen and (max-width: 600px) {
     .all-chords{
 		display: none;
