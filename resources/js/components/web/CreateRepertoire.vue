@@ -33,6 +33,12 @@
                           {{ index + 1 }}. {{ element.music_name }}
                         
                           </span>
+                          <span class="mx-1" @click="deleteSongRepertoire(r.id ,element)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                              <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                          </svg>
+                          </span>
                       </div>
                       </template>
                   </draggable>
@@ -233,22 +239,46 @@ const onReorder = async (repertoire) => {
   try {
     await Promise.all(
       updates.map(item =>
-        rhythmstore.update(
-          `${urls.api}repertoires/${repertoire.id}/musics/${item.music_id}`,
+        rhythmstore.update( `${urls.api}repertoires/${repertoire.id}/musics/${item.music_id}`,
           { _method:"put", position: item.position, tom: item.tom, music_id: item.music_id },
           config
         )
       )
     );
-
     messages('Ordem atualizada com sucesso', 'alert-success');
-  } catch (e) {
+  }catch (e) {
     returnCatch(e);
   }
 };
 
+const deleteSongRepertoire = (  (repertoire_id,song) =>{
+  proxy.$swal.fire({
+    // https://sweetalert2.github.io/#input-types
+      title: `Retirar do repertorio`,
+      text: `${song.music_name}?`,
+      icon: 'question',
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Não',
+      showCancelButton: true,
+      reverseButtons: false ,
+  }).then( async (result) => {
+      if (result.isConfirmed) {
+        return await rhythmstore.delete(`${urls.api}repertoires/${repertoire_id}/musics/${song.id}`,{_method: 'Delete'}, config)
+        .then( response => {  
+          messages('Musica retirada.', 'alert-success'); 
+            execute();
+            getRepertorie();
+        })
+        .catch((e) => {
+            returnCatch(e)
+        })
+      }
+    });
+})
+
 const returnCatch = (e) => {
   const [text, type] = catchDefault(e);
+  console.log("ok1")
   messages(text, type);
 };
 
@@ -266,7 +296,7 @@ const closeFullScreen  = () => {
 
 onMounted(() => { 
     execute();
-   getRepertorie();
+    getRepertorie();
 } );
 
 </script>
