@@ -60,7 +60,7 @@ class MusicController extends Controller
                 $fields['music_name'] = Str::upper($fields['music_name']);
 
             }
-            if($fields['chords']){
+            if($fields['chords'] && $fields['chords'] != ""){
                 $fields['chords'] = json_encode($fields['chords']);
 
             }
