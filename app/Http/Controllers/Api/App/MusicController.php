@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Api\App;
 
 use App\Models\Music\Music;
@@ -8,93 +9,135 @@ use App\Http\Controllers\Controller;
 use App\Exceptions\Music\MusicException;
 use App\Http\Requests\Api\Music\MusicRequest;
 use App\Http\Resources\Api\Music\MusicResource;
+use App\Http\Requests\Api\Music\MusicUpdateRequest;
+
 
 class MusicController extends Controller
 {
     public function index()
     {
-        try{
-            $musics = Music::all();
-            $musics->load(['singer','tone','rhythm']);
+        try {
+            $musics = Music::with(['singer', 'tone', 'rhythm'])->get();
             return MusicResource::collection($musics);
-
-        }catch(\Exception $e){
-            throw new MusicException('Erro ao listar musicas');
+        } catch (\Exception $e) {
+            throw new MusicException('Erro ao listar músicas. ' . $e->getMessage());
         }
     }
+
     public function store(MusicRequest $request)
     {
-        $fields = $request->validated();
+        try {
+            $fields = $request->validated();
+            $fields['music_name'] = Str::upper($fields['music_name']);
+            $fields['chords'] = json_encode($fields['chords']);
 
-        $fields['music_name'] = Str::upper($fields['music_name'] );
-        $fields['chords'] = json_encode($fields['chords']);
-        $music = Music::where('music_name', $fields['music_name'])->where('singer_id', $fields['singer_id'])->first();
-        if ($music instanceof Music) {
-            throw new MusicException('Musica já foi cadastrado.');
-            
-        } else {
+            $existingMusic = Music::where('music_name', $fields['music_name'])
+                ->where('singer_id', $fields['singer_id'])
+                ->first();
+
+            if ($existingMusic instanceof Music) {
+                throw new MusicException('Música já cadastrada.');
+            }
+
             $newMusic = Music::create($fields);
-            if($fields['composers']){
-                $composers = $fields['composers'];
-                $composersArray = explode(", ", $composers);
-                $composersArray = array_map('strtoupper', $composersArray);
-                $this->storeComposers($newMusic,$composersArray, false);
+
+            if (!empty($fields['composers'])) {
+                $composerNames = $this->normalizeComposers($fields['composers']);
+                $this->storeComposers($newMusic, $composerNames);
             }
+
             return new MusicResource($newMusic);
+        } catch (\Exception $e) {
+            throw new MusicException('Erro ao salvar música. ' . $e->getMessage());
         }
-        
     }
-    public function update(MusicRequest $request, string $id)
+
+    public function update(MusicUpdateRequest $request, string $id)
     {
-        $fields = $request->validated();
-        $fields['music_name'] = Str::upper($fields['music_name'] );
-        $composers = $fields['composers'];
-        $composersArray = explode(", ", $composers);
-        $composersArray = array_map('strtoupper', $composersArray);
-        $music_validade = Music::where('music_name', $fields['music_name'])->first();
-        if ($music_validade instanceof Music && $music_validade->id == (int)$id) {
-            try {
-                $music = Music::where('id',$id)->first();
-                $fields['chords'] = json_encode($fields['chords']);
-                $music->fill($fields);
-                $music->save();
-                $this->storeComposers($music, $composersArray, true);
-                return new MusicResource($music);
-            } catch (\Exception $e) {
-                throw new MusicException('Erro ao atualizar a música.');
+        try {
+            $fields = $request->validated();
+            if($fields['music_name']){
+                $fields['music_name'] = Str::upper($fields['music_name']);
+
             }
-        }else{
-            throw new MusicException('Erro ao atualizar a música.');
+            if($fields['chords']){
+                $fields['chords'] = json_encode($fields['chords']);
+
+            }
+
+            $existingMusic = Music::where('music_name', $fields['music_name'])
+                ->where('singer_id', $fields['singer_id'])
+                ->where('id', '!=', $id)
+                ->exists();
+
+            if ($existingMusic) {
+                throw new MusicException('Já existe outra música com esse nome e cantor.');
+            }
+
+            $music = Music::findOrFail($id);
+            $music->fill($fields);
+            $music->save();
+
+            if (!empty($fields['composers'])) {
+                $composerNames = $this->normalizeComposers($fields['composers']);
+                $this->storeComposers($music, $composerNames);
+            }
+
+            return new MusicResource($music);
+        } catch (\Exception $e) {
+            throw new MusicException('Erro ao atualizar a música. ' . $e->getMessage());
         }
     }
+
     public function destroy(string $id)
     {
-        try{
+        try {
             $music = Music::findOrFail($id);
             $music->delete();
-            return response()->json([],201);
-        }catch(\Exception $e){
-            throw new MusicException('Musica não encontrada.');
+            return response()->json([], 201);
+        } catch (\Exception $e) {
+            throw new MusicException('Música não encontrada. ' . $e->getMessage());
         }
     }
-    private function storeComposers(Music $music, $composers, $update)
+
+    /**
+     * Armazena os compositores vinculados à música,
+     * atualizando corretamente a contagem de `amount_musics`.
+     */
+    private function storeComposers(Music $music, array $composerNames)
     {
-        $composers_id = [];
-        
-        foreach ($composers as $composerName) {
-            $exitsComposer = Composer::where('name', $composerName)->first();
-            
-            if ($exitsComposer) {
-                if (!$update && Music::where('music_name', $music->music_name)->count() == 1) {
-                    $exitsComposer->amount_musics += 1;
-                    $exitsComposer->save();
-                }
-                $composers_id[] = $exitsComposer->id;
-            } else {
-                $newComposer = Composer::create(['name' => $composerName]);
-                $composers_id[] = $newComposer->id;
+        $newComposerIds = [];
+
+        foreach ($composerNames as $name) {
+            $composer = Composer::firstOrCreate(['name' => $name]);
+
+            if (!$music->composers()->where('composer_id', $composer->id)->exists()) {
+                $composer->increment('amount_musics');
+            }
+
+            $newComposerIds[] = $composer->id;
+        }
+
+        // Reduz `amount_musics` dos compositores removidos
+        $oldComposerIds = $music->composers()->pluck('composer_id')->toArray();
+        $removedComposerIds = array_diff($oldComposerIds, $newComposerIds);
+
+        foreach ($removedComposerIds as $removedId) {
+            $composer = Composer::find($removedId);
+            if ($composer && $composer->amount_musics > 0) {
+                $composer->decrement('amount_musics');
             }
         }
-        $music->composers()->sync($composers_id);
+
+        $music->composers()->sync($newComposerIds);
+    }
+
+    /**
+     * Normaliza os nomes dos compositores (uppercase + trim)
+     */
+    private function normalizeComposers(string $composerString): array
+    {
+        $parts = explode(',', $composerString);
+        return array_map(fn($name) => strtoupper(trim($name)), $parts);
     }
 }

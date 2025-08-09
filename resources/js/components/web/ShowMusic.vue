@@ -244,29 +244,36 @@ const mostrarProximoElemento = (event) => {
 
 const enableDynamicTooltip = (element, chord) => {
   const tooltip = document.getElementById("tooltip");
-  const contentElement = document.getElementById(chord); 
+  const contentElement = document.getElementById(chord);
 
-  if (!contentElement) return; 
+  if (!contentElement) return;
   const content = contentElement.innerHTML;
 
   const showTooltip = (e) => {
     tooltip.innerHTML = content;
     tooltip.style.display = "block";
-    tooltip.style.left = `${e.api_repertoireX + 15}px`;
-    tooltip.style.top = `${e.api_repertoireY + 15}px`;
+
+    const rect = element.getBoundingClientRect();
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
+
+    tooltip.style.left = `${rect.left + scrollLeft}px`;
+    tooltip.style.top = `${rect.bottom + scrollTop + 5}px`; // 5px abaixo do acorde
   };
 
   const hideTooltip = () => {
     tooltip.style.display = "none";
   };
 
-  // A variável `element` é agora passada corretamente para manipulação de eventos
+  // Remover listeners duplicados primeiro
+  element.removeEventListener("mousemove", showTooltip);
+  element.removeEventListener("mouseleave", hideTooltip);
+
   element.addEventListener("mousemove", showTooltip);
   element.addEventListener("mouseleave", hideTooltip);
-  element.addEventListener("click", (e) => {
-    showTooltip(e);
-  });
+  element.addEventListener("click", showTooltip);
 };
+
 
 const submit = (() => {
 

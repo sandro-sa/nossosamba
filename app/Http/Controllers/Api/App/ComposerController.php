@@ -21,7 +21,7 @@ class ComposerController extends Controller
     public function showComposerMusic(string $music)
     {
         try{
-            $music = Music::where('musuc_name',$music)->first();
+            $music = Music::where('music_name',$music)->first();
             return new MusicResource($music);
         }catch(\Exception $e){
             throw new MusicException('Musica não encontrada.');

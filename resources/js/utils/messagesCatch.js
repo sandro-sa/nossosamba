@@ -17,6 +17,10 @@ export function catchDefault (e)  {
 	}
 	if(e.code && e.code === 'ERR_BAD_REQUEST' ){
 		
+		
+		if( e.response.data.message == 'MusicException'){
+			return [ e.response.data.exception, 'alert-danger']
+		}
 		if(e.code == 'ERR_BAD_REQUEST'){
 			return [ "Não autorizado", 'alert-danger']
 		}else{
