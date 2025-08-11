@@ -99,6 +99,7 @@
 			</div>
 			<div class="col-md-5">
 				<div  v-if="music" class="container-music mt-5">
+					<h2 style="font-size: 1em; font-weight: bold;">Prévia</h2>
 					<h2 style="font-size: 1em; font-weight: bold;">{{ music_name }}</h2>
 					<span v-if="tone" style="font-size: 0.8em; font-weight: bold;">Tom: {{ tone.tone }}</span>
 					<br>
@@ -242,30 +243,34 @@ const execute = (() => {
 	isLoading.value = false;
 }) ;
 onMounted(() => {
-  const quill = new Quill(editor.value, {
+	const Font = Quill.import('formats/font');
+	Font.whitelist = ['monospace'];
+	Quill.register(Font, true);
+  	const quill = new Quill(editor.value, {
       theme: 'snow',
-      placeholder: 'Escreva a letra da música aqui...',
+      placeholder: 'Escreva a cifra em cima letra abaixo',
       modules: {
-        toolbar: [
-			[{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-			[{ 'list': 'ordered' }, { 'list': 'bullet' }],
-			[{ 'align': [] }],
-			['bold', 'italic', 'underline'],
-			['link'],
-			['blockquote'],
-			[{ 'color': [] }, { 'background': [] }],
-			['clean']
-        ]
+		 toolbar: false
+        // toolbar: [
+		// 	[ { 'font': ['monospace'] }],
+		// 	//[{ 'list': 'ordered' }, { 'list': 'bullet' }],
+		// 	//[{ 'align': [] }],
+		// 	//['bold', 'italic', 'underline'],
+		// 	//['link'],
+		// 	//['blockquote'],
+		// 	//[{ 'color': [] }, { 'background': [] }],
+		// 	//['clean']
+        // ]
       }
     });
-  
+  	quill.format('font', 'monospace');
     quill.on('text-change', () => {
 		let htmlContent = quill.root.innerHTML;
 		music.value =  htmlContent
  		htmlContent = htmlContent.replace(/ {2,}/g, (match) => {
     	return match.replace(/ /g, '&nbsp;');
  	});
-
+	quill.format('font', 'monospace');
 	music.value = processarTexto(htmlContent)
     });
 	execute();
@@ -291,17 +296,6 @@ const processarTexto = (htmlContent) => {
     	return match;  
 	});
 
-	novoAcorde = novoAcorde.replace(/([A-Za-z]+)(-?\d{1,2})\/(-?\d{1,2})/g, (match, chord, numBeforeSlash, numAfterSlash) => {
-    let numBefore = parseInt(numBeforeSlash); 
-    let numAfter = parseInt(numAfterSlash);  
-
-    if (Math.abs(numBefore) > Math.abs(numAfter)) {
-        let newNumBefore = (numAfterSlash[0] === '-' ? '' : '') + numAfter;
-        let newNumAfter = (numBeforeSlash[0] === '-' ? '' : '') + numBefore;
-        return chord + newNumBefore + '/' + newNumAfter;
-    }
-    return match;
-});   
     if (!chords.value.includes(novoAcorde) && novoAcorde !== '<br>') {
 
         chords.value.push(novoAcorde);
@@ -313,7 +307,13 @@ const processarTexto = (htmlContent) => {
 
 const adicionarClasseAcorde = (texto) => {
 
-  const acordes = texto.split(/(\s|\&nbsp\;|\^|\s+)/); 
+	texto = texto.replace(/<\/span/g, '');
+	texto = texto.replace(/<span /g, '');
+	texto = texto.replace(/>/g, '');
+	texto = texto.replace(/class="ql-cursor">/g, '');
+	texto = texto.replace(/class="ql-cursor"/g, '');
+	texto = texto.replace(/class="ql-font-monospace"/g, '');
+	const acordes = texto.split(/(\s|\&nbsp\;|\^|\s+)/); 
   let resultado = '';
 
   acordes.forEach((acorde) => {
@@ -335,23 +335,25 @@ const adicionarClasseAcorde = (texto) => {
 };
 
 
-  let paragrafos = htmlContent.split(/<\/p>\s*<p>|<\/p>$|<p>/);
-  paragrafos = paragrafos.map((paragrafo, index) => {
-    paragrafo = paragrafo.trim();
-    if (paragrafo === "") return '';
-	if (index % 2 === 1 && paragrafo.trim()) {
-      	paragrafo = adicionarClasseAcorde(paragrafo);
-		  paragrafo = `<p class="m-0 p-0 mt-1" style="font-size: 0.8em; line-height: 0.9;  color:green; font-family: monospace;">${paragrafo}</p>`;
-    	return 	paragrafo;
-    }else{
-		paragrafo = `<p class="m-0 p-0" style="font-size: 0.8em; line-height: 0.9; font-weight: 600; font-family: monospace; ">${paragrafo}</p>`;
+let paragrafos = htmlContent.split(/<\/p>\s*<p>|<\/p>$|<p>/);
+paragrafos = paragrafos.map((paragrafo, index) => {
+  paragrafo = paragrafo.trim();
+  if (paragrafo === "") return '';
 
-    	return 	paragrafo;
-	}
+  if (index % 2 === 1 && paragrafo.trim()) {
+  // Corrigida: só transforma acordes do tipo Am7(5-) em Am7/5-
+  paragrafo = paragrafo.replace(/([A-G][#b]?[^/\s]*)\(([^)]+)\)/g, '$1/$2');
 
-	
-  });
-   return paragrafos.filter(p => p !== '').join(''); // Filtrando paragrafos vazios
+  paragrafo = adicionarClasseAcorde(paragrafo);
+  paragrafo = `<p class="m-0 p-0 mt-1" style="font-size: 0.8em; line-height: 0.9;  color:green; font-family: monospace;">${paragrafo}</p>`;
+  return paragrafo;
+} else {
+    paragrafo = `<p class="m-0 p-0" style="font-size: 0.8em; line-height: 0.9; font-weight: 600; font-family: monospace;">${paragrafo}</p>`;
+    return paragrafo;
+  }
+});
+
+return paragrafos.filter(p => p !== '').join('');
 };
 
 const returnCath = ((e) => {
@@ -390,6 +392,9 @@ const returnCath = ((e) => {
 .btn-success{
 	background-color: #508570;
 	border-radius:0px;
+}
+.ql-editor {
+  font-family: monospace !important;
 }
 </style>
   

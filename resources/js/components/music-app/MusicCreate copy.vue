@@ -9,7 +9,6 @@
 				<form @submit.prevent="submitForm">
 					<div class="row">
 						<input type="hidden" :value="token_crsf">
-						<input type="hidden" :value="id">
 						<div class="col-md-4">
 							<div class="row">
 								<div class="col-md-8">
@@ -37,7 +36,7 @@
 										<label for="music_name">Informar tom</label>
 										<select v-model="tone" class="form-select" aria-label="Default select example">
 											<template v-for="tone in tones" :key="tone.id">
-												<option :value="tone.id">{{tone.tone  }}</option>
+												<option :value="tone">{{tone.tone  }}</option>
 											</template>
 										</select>
 									</div>
@@ -100,9 +99,10 @@
 			</div>
 			<div class="col-md-5">
 				<div  v-if="music" class="container-music mt-5">
-					<h2 style="font-size: 1em; font-weight: bold;">Prévia</h2>
 					<h2 style="font-size: 1em; font-weight: bold;">{{ music_name }}</h2>
 					<span v-if="tone" style="font-size: 0.8em; font-weight: bold;">Tom: {{ tone.tone }}</span>
+					<br>
+					<span v-if="composers" style="font-size: 0.8em; font-weight: bold;">Compositor(es): {{ composers}}</span>
 					<br>
 					<p class="m-0 p-0" v-if="introduction" style="font-size: 0.8em; font-weight: bold;">Intro: {{ introduction }}</p>
 					<p class="m-0 p-0" v-if="chords" style="font-size: 0.8em; font-weight: bold;">Notas: | <span v-for="a , index in chords" :key="index">{{ a }} | </span></p>
@@ -123,7 +123,7 @@ import urls from '@/utils/urls';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 const { proxy } = getCurrentInstance();
-const props = defineProps(['token_crsf', 'music_edit']);
+const props = defineProps(['token_crsf']);
 const newSinger = ref(false);
 const newTone = ref(false);
 const newRhythm = ref(false);
@@ -143,7 +143,6 @@ const composers = ref('');
 const music = ref(null);
 const editor = ref(null);
 const chords = ref([]);
-const id = ref(null);
 
 const config = {
    headers: {
@@ -160,7 +159,6 @@ const messageSweet = ((text, type ) => {
 
     });
 });
-
 const messages = ((text, type ) => {
     msg.value = text;
     alert.value = type;
@@ -168,19 +166,16 @@ const messages = ((text, type ) => {
         resetMessages();
     }, 2000)
 });
-
 const resetMessages = (( ) => {
     msg.value = false;
     alert.value = false;
 });
-
 const submit = (async () => {
     isLoading.value = true;
    const fields = {
-        _method:'PUT',
-		id: id.value,
+        _method:'POST',
 		singer_id: singer.value,
-		tone_id: tone.value,
+		tone_id: tone.value.id,
 		rhythm_id: rhythm.value,
 		introduction: introduction.value,
 		music_name: music_name.value,
@@ -189,10 +184,11 @@ const submit = (async () => {
 		chords: chords.value,
         
     }
-    return store.update(urls.api+'music/' +fields.id, fields, config)
+	console.log(fields)
+    return store.insert(urls.api+'music', fields, config)
     .then((response) => {
         if(response.request.status === 200 || response.request.status === 201 ){
-            messageSweet( 'letra salva atualizada','success');
+            messageSweet( 'Nova letra salva','success');
             execute();
 			singer.value = null;
 			tone.value = null;
@@ -200,12 +196,10 @@ const submit = (async () => {
 			introduction.value = null;
 			music_name.value = null;
 			music.value = null;
-			setTimeout(() => {
-				window.location.reload();
-			},2000)
         }
     })
     .catch((e) => {
+		console.log(e)
         returnCath(e);
     })
     .finally(() => isLoading.value = false);
@@ -237,11 +231,7 @@ const getSinger = (async () => {
         returnCath(e);
     })
 });
-const returnCath = ((e) => {
-	
-	const retornCatch = catchDefault(e);
-	messages(retornCatch[0],retornCatch[1])
-});
+
 const execute = (() => {
 	getSinger();
 	getTone();
@@ -252,51 +242,30 @@ const execute = (() => {
 	isLoading.value = false;
 }) ;
 onMounted(() => {
-
-	const edit = props.music_edit;
-	const Font = Quill.import('formats/font');
-	Font.whitelist = ['monospace'];
-	Quill.register(Font, true);
-	if (edit) {
-		id.value = edit.id;
-		singer.value = edit.singer_id;
-		tone.value = edit.tone_id;		
-		rhythm.value = edit.rhythm_id;
-		introduction.value = edit.introduction;
-		music_name.value = edit.music_name;
-		composers.value = edit.composers;
-		music.value = edit.music;
-	}
-
-	const quill = new Quill(editor.value, {
-		theme: 'snow',
-		placeholder: 'Escreva a letra da música aqui...',
-		modules: {
-			 toolbar: false
-        // toolbar: [
-		// 	[ { 'font': ['monospace'] }],
-		// 	//[{ 'list': 'ordered' }, { 'list': 'bullet' }],
-		// 	//[{ 'align': [] }],
-		// 	//['bold', 'italic', 'underline'],
-		// 	//['link'],
-		// 	//['blockquote'],
-		// 	//[{ 'color': [] }, { 'background': [] }],
-		// 	//['clean']
-        // ]
+  const quill = new Quill(editor.value, {
+      theme: 'snow',
+      placeholder: 'Escreva a letra da música aqui...',
+      modules: {
+        toolbar: [
+			[{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+			[{ 'list': 'ordered' }, { 'list': 'bullet' }],
+			[{ 'align': [] }],
+			['bold', 'italic', 'underline'],
+			['link'],
+			['blockquote'],
+			[{ 'color': [] }, { 'background': [] }],
+			['clean']
+        ]
       }
-	});
-
-	// if (music.value) {
-	// 	quill.root.innerHTML = music.value;  // Definir conteúdo HTML no editor
-	// }
-  	quill.format('font', 'monospace');
+    });
+  
     quill.on('text-change', () => {
 		let htmlContent = quill.root.innerHTML;
 		music.value =  htmlContent
  		htmlContent = htmlContent.replace(/ {2,}/g, (match) => {
     	return match.replace(/ /g, '&nbsp;');
  	});
-	quill.format('font', 'monospace');
+
 	music.value = processarTexto(htmlContent)
     });
 	execute();
@@ -322,6 +291,17 @@ const processarTexto = (htmlContent) => {
     	return match;  
 	});
 
+	novoAcorde = novoAcorde.replace(/([A-Za-z]+)(-?\d{1,2})\/(-?\d{1,2})/g, (match, chord, numBeforeSlash, numAfterSlash) => {
+    let numBefore = parseInt(numBeforeSlash); 
+    let numAfter = parseInt(numAfterSlash);  
+
+    if (Math.abs(numBefore) > Math.abs(numAfter)) {
+        let newNumBefore = (numAfterSlash[0] === '-' ? '' : '') + numAfter;
+        let newNumAfter = (numBeforeSlash[0] === '-' ? '' : '') + numBefore;
+        return chord + newNumBefore + '/' + newNumAfter;
+    }
+    return match;
+});   
     if (!chords.value.includes(novoAcorde) && novoAcorde !== '<br>') {
 
         chords.value.push(novoAcorde);
@@ -333,13 +313,7 @@ const processarTexto = (htmlContent) => {
 
 const adicionarClasseAcorde = (texto) => {
 
-	texto = texto.replace(/<\/span/g, '');
-	texto = texto.replace(/<span /g, '');
-	texto = texto.replace(/>/g, '');
-	texto = texto.replace(/class="ql-cursor">/g, '');
-	texto = texto.replace(/class="ql-cursor"/g, '');
-	texto = texto.replace(/class="ql-font-monospace"/g, '');
-	const acordes = texto.split(/(\s|\&nbsp\;|\^|\s+)/); 
+  const acordes = texto.split(/(\s|\&nbsp\;|\^|\s+)/); 
   let resultado = '';
 
   acordes.forEach((acorde) => {
@@ -361,26 +335,29 @@ const adicionarClasseAcorde = (texto) => {
 };
 
 
-let paragrafos = htmlContent.split(/<\/p>\s*<p>|<\/p>$|<p>/);
-paragrafos = paragrafos.map((paragrafo, index) => {
-  paragrafo = paragrafo.trim();
-  if (paragrafo === "") return '';
+  let paragrafos = htmlContent.split(/<\/p>\s*<p>|<\/p>$|<p>/);
+  paragrafos = paragrafos.map((paragrafo, index) => {
+    paragrafo = paragrafo.trim();
+    if (paragrafo === "") return '';
+	if (index % 2 === 1 && paragrafo.trim()) {
+      	paragrafo = adicionarClasseAcorde(paragrafo);
+		  paragrafo = `<p class="m-0 p-0 mt-1" style="font-size: 0.8em; line-height: 0.9;  color:green; font-family: monospace;">${paragrafo}</p>`;
+    	return 	paragrafo;
+    }else{
+		paragrafo = `<p class="m-0 p-0" style="font-size: 0.8em; line-height: 0.9; font-weight: 600; font-family: monospace; ">${paragrafo}</p>`;
 
-  if (index % 2 === 1 && paragrafo.trim()) {
-  // Corrigida: só transforma acordes do tipo Am7(5-) em Am7/5-
-  paragrafo = paragrafo.replace(/([A-G][#b]?[^/\s]*)\(([^)]+)\)/g, '$1/$2');
+    	return 	paragrafo;
+	}
 
-  paragrafo = adicionarClasseAcorde(paragrafo);
-  paragrafo = `<p class="m-0 p-0 mt-1" style="font-size: 0.8em; line-height: 0.9;  color:green; font-family: monospace;">${paragrafo}</p>`;
-  return paragrafo;
-} else {
-    paragrafo = `<p class="m-0 p-0" style="font-size: 0.8em; line-height: 0.9; font-weight: 600; font-family: monospace;">${paragrafo}</p>`;
-    return paragrafo;
-  }
-});
-
-return paragrafos.filter(p => p !== '').join('');
+	
+  });
+   return paragrafos.filter(p => p !== '').join(''); // Filtrando paragrafos vazios
 };
+
+const returnCath = ((e) => {
+	const retornCatch = catchDefault(e);
+	messages(retornCatch[0],retornCatch[1])
+});
 
 </script>
 <style scoped>
@@ -400,9 +377,19 @@ return paragrafos.filter(p => p !== '').join('');
     line-height: 0.2; /* Não esta funcionado */
     margin: 0;
 }
-
-.ql-editor {
-  font-family: monospace !important;
+.btn-primary{
+	background-color: #a76f67;
+	border-color: #a76f67;
+	border-radius: 0px;
+}
+.btn-primary:hover{
+	background-color: #e2c4b9;
+	border-color: #e2c4b9;
+	color: #a76f67;
+}
+.btn-success{
+	background-color: #508570;
+	border-radius:0px;
 }
 </style>
   
