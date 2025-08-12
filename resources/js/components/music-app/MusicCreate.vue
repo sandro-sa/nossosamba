@@ -205,6 +205,7 @@ const submit = (async () => {
 			introduction.value = null;
 			music_name.value = null;
 			music.value = null;
+			composers.value = null;
 			quill.setText('')
         }
     })
