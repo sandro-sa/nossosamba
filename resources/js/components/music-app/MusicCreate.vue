@@ -112,7 +112,6 @@
 				</div>
 			</div>
 		</div>
-
     </div>
   </template>
   
@@ -173,6 +172,15 @@ const resetMessages = (( ) => {
 });
 const submit = (async () => {
     isLoading.value = true;
+
+	if(singer.value == null || rhythm.value == null || tone.value.id == null ){
+		isLoading.value = false;
+		return messageSweet( 'Preencher os campos musico, tom e ritmo!','warning');
+	}
+	if(music_name.value == null || introduction.value == null || music.value == null || chords.value == null ){
+		isLoading.value = false;
+		return messageSweet( 'Preencher os campos o nome da musica, introdução, letra com cifras!','warning');
+	}
    const fields = {
         _method:'POST',
 		singer_id: singer.value,
@@ -185,7 +193,7 @@ const submit = (async () => {
 		chords: chords.value,
         
     }
-	console.log(fields)
+	
     return store.insert(urls.api+'music', fields, config)
     .then((response) => {
         if(response.request.status === 200 || response.request.status === 201 ){
@@ -197,6 +205,7 @@ const submit = (async () => {
 			introduction.value = null;
 			music_name.value = null;
 			music.value = null;
+			quill.setText('')
         }
     })
     .catch((e) => {
@@ -242,11 +251,13 @@ const execute = (() => {
 	newRhythm.value = false;
 	isLoading.value = false;
 }) ;
+
+let quill;
 onMounted(() => {
 	const Font = Quill.import('formats/font');
 	Font.whitelist = ['monospace'];
 	Quill.register(Font, true);
-  	const quill = new Quill(editor.value, {
+  	  quill = new Quill(editor.value, {
       theme: 'snow',
       placeholder: 'Escreva a cifra em cima letra abaixo',
       modules: {
@@ -307,6 +318,7 @@ const processarTexto = (htmlContent) => {
 
 const adicionarClasseAcorde = (texto) => {
 
+	texto = texto.replace(/<br/g, '');
 	texto = texto.replace(/<\/span/g, '');
 	texto = texto.replace(/<span /g, '');
 	texto = texto.replace(/>/g, '');
