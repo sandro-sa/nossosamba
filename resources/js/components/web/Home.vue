@@ -1,6 +1,31 @@
 <template>
 	<alert-loading :msg="msg" :isLoading="isLoading" :alert="alert"></alert-loading>
-		<div class="d-flex flex-wrap">
+
+
+<div class="mb-3 position-relative d-flex justify-content-end align-items-start">
+
+  <input 
+    v-model="searchTerm" 
+    @input="handleSearchInput" 
+    type="text" 
+    class="form-control me-2" 
+    placeholder="Buscar música..."
+    style="max-width: 400px;"
+  />
+  <ul v-if="filteredMusics.length > 0" class="autocomplete-list" >
+    <li 
+      v-for="music in filteredMusics" 
+      :key="music.id"
+      @click="goToMusic(music.id)"
+    >
+      {{ reduceText(music.music_name, 30) }}
+    </li>
+  </ul>
+</div>
+
+
+		<div class="d-flex flex-wrap ">
+      
       		<template v-for="singer in singers" :key="singer.id">
             <template v-if="!singer.musics">
               
@@ -8,7 +33,7 @@
                 <div class="card" style=" width: 200px; border-radius: 0px;">
                   <img :src="'/storage/'+singer.image " class="card-img-top" :alt="'foto do cantor ou grupo '+ singer.singer_name" style=" border-radius: 0px;">
               </div>
-                <button class="btn btn btn-secondary text-start "type="button" :title="singer.singer_name">{{ reduceText(singer.singer_name) }}</button>
+                <button class="btn btn btn-secondary text-start "type="button" :title="singer.singer_name">{{ reduceText(singer.singer_name,  12) }}</button>
               </div>
             </template>
             <template v-else >
@@ -21,6 +46,7 @@
                   </button>
                   <ul class="dropdown-menu">
                     <template  v-for="music in singer.musics" :key="music.id">
+                      <!-- gostaria de uma rolagem para mais que 6 music_name -->
                       <li :title="music.music_name"><a class="dropdown-item" :href="pageMusic+music.id">{{ reduceText(music.music_name, 22 )}}</a></li>
                     </template>
                   </ul>
@@ -86,6 +112,31 @@ const reduceText =  ((text, limit=18) => {
     return text;
 });
 
+const searchTerm = ref('');
+const filteredMusics = ref([]);
+
+const handleSearchInput = () => {
+  const query = searchTerm.value.trim().toLowerCase();
+  if (query.length < 3) {
+    filteredMusics.value = [];
+    return;
+  }
+
+  // Flatten all musics from all singers
+  const allMusics = singers.value
+    .filter(singer => singer.musics && singer.musics.length > 0)
+    .flatMap(singer => singer.musics);
+
+  // Filter based on input
+  filteredMusics.value = allMusics.filter(music =>
+    music.music_name.toLowerCase().includes(query)
+  );
+};
+
+const goToMusic = (id) => {
+  window.location.href = pageMusic + id;
+};
+
 const returnCath = ((e) => {
 	const retornCatch = catchDefault(e);
 	messages(retornCatch[0],retornCatch[1])
@@ -99,10 +150,10 @@ onMounted(() => {
 </script>
 <style scoped>
 
-  .quill-editor {
-    min-height: 700px;
-	background-color: rgb(255, 255, 255);
+  .flex-wrap{
+    justify-content: center;
   }
+
   input, select{
 	background-color: white;
   }
@@ -127,11 +178,14 @@ onMounted(() => {
     padding-left: 20px;
     border-radius: 0px;
   }
+
   .dropdown-menu{
     background-color: #ffffff;
     border: #ffffff;
     border-radius: 0px;
     min-width: 200px;
+    max-height: 200px; /* define altura máxima */
+    overflow-y: auto;  /* ativa rolagem vertical */
   }
 
   .dropdown-item{
@@ -142,6 +196,29 @@ onMounted(() => {
     color: #ffffff;
   }
 
+.autocomplete-list {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 0px 0px  5px 5px;
+  width: 400px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 999;
+  list-style: none;
+  margin: 30px 8px 0 0;
+  padding: 0;
+}
+
+.autocomplete-list li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.autocomplete-list li:hover {
+  background-color: #e2c4b9;
+  color: white;
+}
 @media only screen and (max-width: 600px) {
 
     .flex-wrap{

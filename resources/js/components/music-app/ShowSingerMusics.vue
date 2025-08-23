@@ -2,35 +2,7 @@
 	<div class="container">
 		<alert-loading :msg="msg" :isLoading="isLoading" :alert="alert"></alert-loading>
 		<div class="row">
-            <div class="col-md-6">
-                <h2 class="text-start mt-3">{{singer.singer_name}}</h2>
-            	<table  v-if="musics" class="table table-bordered table-light table-hover">
-					<thead>
-						<tr>
-						<th scope="col">#</th>
-						<th scope="col">Musicas</th>
-						<th scope="col">Ritmo</th>
-						<th scope="col">tom</th>
-						<th scope="col">Visualizar</th>
-						</tr>
-					</thead>
-					<tbody>
-						<template v-for=" music in musics" :key="music.id">
-						<tr >
-						<th scope="row">{{ music['id'] }}</th>
-						<td>{{ music['music_name'] }}</td>
-						 <td>{{ music['rhythm']['rhythm'] }}</td>
-						<td>{{ music['tone']['tone'] }}</td>
-                        <td class="p-1"><button class="btn"  type="button" @click="questionAlert(music)" style="color: red;" title="Excluir"><i class="bi bi-trash"></i></button>
-						<button class="btn"  type="button" @click="showMusic(music)" style="color: blue;" title="Ver"><i class="bi bi-file-earmark-music-fill"></i></button>
-						<a :href="urls.url+'atualizar/'+music['id']" class="btn"  type="button" style="color: green;" title="Editar"><i class="bi bi-pen"></i></a>
-                        </td> 
-						</tr> 
-						</template>
-					</tbody>
-            	</table>
-       		</div>
-			<div class="col-md-6">
+            <div class="col-12">
 				<template v-if="music">
 					
 				<div @mouseover="mostrarProximoElemento">
@@ -79,6 +51,35 @@
                    <div id="tooltip" style="position: absolute; display: none;"></div>
                </template>
 			</div> 
+            <div class="col-12">
+                <h2 class="text-start mt-3">{{singer.singer_name}}</h2>
+            	<table  v-if="musics" class="table table-bordered table-light table-hover">
+					<thead>
+						<tr>
+						<th scope="col">#</th>
+						<th scope="col">Musicas</th>
+						<th scope="col">Ritmo</th>
+						<th scope="col">tom</th>
+						<th scope="col">Visualizar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<template v-for=" music in musics" :key="music.id">
+						<tr >
+						<th scope="row">{{ music['id'] }}</th>
+						<td>{{ music['music_name'] }}</td>
+						 <td>{{ music['rhythm']['rhythm'] }}</td>
+						<td>{{ music['tone']['tone'] }}</td>
+                        <td class="p-1"><button class="btn"  type="button" @click="questionAlert(music)" style="color: red;" title="Excluir"><i class="bi bi-trash"></i></button>
+						<button class="btn"  type="button" @click="showMusic(music)" style="color: blue;" title="Ver"><i class="bi bi-file-earmark-music-fill"></i></button>
+						<a :href="urls.url+'atualizar/'+music['id']" class="btn"  type="button" style="color: green;" title="Editar"><i class="bi bi-pen"></i></a>
+                        </td> 
+						</tr> 
+						</template>
+					</tbody>
+            	</table>
+       		</div>
+			
    		</div>
 	</div>
 </template>
@@ -152,6 +153,11 @@ const resutSucess = () => {
 
 const showMusic = ((value) => {
 	music.value = "";
+
+      window.scrollTo({
+    top: 0,
+    behavior: 'smooth' // faz a rolagem suave
+  });
 	setTimeout(() =>{
 		music.value = value;
 	})

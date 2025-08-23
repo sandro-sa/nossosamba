@@ -1,3 +1,4 @@
+ <!-- Quando seleciona um singer a pagina deve ir para o top onde estao input -->
 <template>
     <alert-loading :msg="msg" :isLoading="isLoading" :alert="alert"></alert-loading>
     <div class="container">
@@ -22,6 +23,7 @@
                     <td>{{ singer.singer_name }}</td>
                     <td v-if="singer.singer_type">Grupo</td><td v-else>Solo</td>
                     <td>
+                        <!-- Quando seleciona um singer a pagina deve ir para o top onde estao input -->
                         <button class="btn me-3" title="Editar" @click="updateSinger(singer)" ><i class="bi bi-pencil-square"></i></button>
                         <a :href="urls.url+'lista/musicas/'+singer.id"><button class="btn" title="Musicas"><i class="bi bi-music-note-list"></i></button></a>
                     </td>
@@ -70,6 +72,12 @@ const updateSinger = ((singer) =>{
   isLoading.value = true;
   editSinger.value = singer;
   update.value = false;
+
+  // Rola a página para o topo (posição 0,0)
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth' // faz a rolagem suave
+  });
   setTimeout(() => {
     editSinger.value = singer;
     update.value = true;

@@ -1,5 +1,6 @@
 <template>
 	<alert-loading :msg="msg" :isLoading="isLoading" :alert="alert"></alert-loading>
+
 	<div class="container">
 		<div class="row">
 			<div class="col-md-7">
