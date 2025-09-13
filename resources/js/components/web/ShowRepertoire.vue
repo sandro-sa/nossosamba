@@ -213,7 +213,6 @@ const toggleAcordes = () => {
 
     .music-estilo-extra,
     .music-estilo-extra * {
-    font-family: "Verdana", sans-serif !important;
     font-weight: bold !important;
     }
     
