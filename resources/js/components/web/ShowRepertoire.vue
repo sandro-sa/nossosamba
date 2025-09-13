@@ -216,7 +216,7 @@ const toggleAcordes = () => {
         font-size: 0.92em !important;
         font-weight: bold !important;
         margin-top: 0px !important;
-        margin-bottom: 0px !important;
+        margin-bottom: 2px !important;
     }
     
 </style>
