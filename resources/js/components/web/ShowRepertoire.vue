@@ -1,33 +1,69 @@
 <template>
-  
-    <div class="container-fluid">
-        <div class="d-flex justify-content-end">
-            <button @click="openFullScreen" class="btn btn-dark btn-sm mt-2">Tela cheia</button>
 
+    <div class="container-fluid">
+
+        <div class="d-flex justify-content-end">
+
+            <button @click="openFullScreen" class="btn btn-dark btn-sm mt-2 me-2">Tela cheia</button>
+
+            <button @click="toggleAcordes" class="btn btn-dark btn-sm mt-2 me-2"> 
+
+                {{ acordesVisiveis ? 'Mostrar' : 'Ocultar' }}   <i class="bi bi-music-note-list"></i>
+                
+            </button>
+
+           <button @click="hideAcordes = !hideAcordes" class="btn btn-dark btn-sm mt-2">
+                <template v-if="hideAcordes">
+
+                    Negrito <i class="bi bi-eye-fill"></i>
+                </template>
+
+                <template v-else>
+
+                    Negrito <i class="bi bi-eye-slash-fill"></i>
+                </template>
+
+            </button>
         </div>
+
         <template v-if="props.musics">
+
             <template v-for="music in musics">
 
                 <div class="velocidade">
+
                     <p class="titulo m-0 p-0 " style="font-size: 0.7em;">##{{ introducao(music[0].music_name,music[1], music[2]) }} ##</p>
+
                     <p class="titulo m-0 p-0 " style="font-size: 0.7em;">##{{ music[0].singer.singer_name }} </p>
+
                     <p class="m-0 p-0" style="font-size: 0.7em;">Introdução: {{ music[0].introduction }}</p>
-                    <span class="music m-0 p-0" v-html="letra(music[0].music, music[1], music[2])"></span>
+
+                    <span 
+                        class="music m-0 p-0"
+                        :class="{ 'hide-acordes': hideAcordes, 'music-estilo-extra': hideAcordes }"
+                        v-html="letra(music[0].music, music[1], music[2])"
+                        >
+                        
+                    </span>
+
                     <hr>
                 </div>
             </template>
+
         </template>
+
     </div>  
 
     <div class="fixed-footer-buttons d-flex justify-content-end">
         <button class="" id="nextMusic" @click="scrollToVelocidade()"><i class="bi bi-caret-right-fill"></i></button>
     </div>
+
 </template>
 
 <script setup>
-
+import { ref } from 'vue';
 const props = defineProps(['token_crsf', 'musics']);
-
+const hideAcordes = ref(false);
 
 const scrollToVelocidade = () => {
    
@@ -90,6 +126,7 @@ const letra = (( music, mudou_tom,acordes) => {
     }
 });
 
+
 const introducao = ((introducao, mudou_tom,acordes) => {
     if (mudou_tom) {
   
@@ -106,6 +143,35 @@ const introducao = ((introducao, mudou_tom,acordes) => {
         return introducao;
     }
 });
+
+const acordesVisiveis = ref(true); // estado global
+
+
+const toggleAcordes = () => {
+  acordesVisiveis.value = !acordesVisiveis.value;
+
+  document.querySelectorAll('p').forEach((p) => {
+    const acordes = p.querySelectorAll('.acorde');
+
+    if (acordes.length > 0) {
+      if (acordesVisiveis.value) {
+        acordes.forEach((acorde) => acorde.style.display = '');
+        // Mostrar novamente spans extras
+        p.querySelectorAll('.acorde-extra').forEach(e => e.style.display = '');
+        p.style.display = '';
+      } else {
+        acordes.forEach((acorde) => acorde.style.display = 'none');
+
+        // Esconde símbolos "^" fora dos spans
+        p.innerHTML = p.innerHTML.replace(/\^/g, '<span class="acorde-extra" style="display:none">^</span>');
+
+        if (p.innerText.trim() === '') {
+          p.style.display = 'none';
+        }
+      }
+    }
+  });
+};
 
 </script>
 <style scoped>
@@ -142,5 +208,15 @@ const introducao = ((introducao, mudou_tom,acordes) => {
         margin: 0px;
         padding: 0px;
     }
+    /* quando acordes estão ocultos */
+    .hide-acordes .acorde {
+    display: none !important;
+    }
 
+    /* estilo adicional aplicado quando acordes estão ocultos */
+    .music-estilo-extra {
+        font-family: "Verdana", sans-serif;
+        font-weight: bold;  
+    }
+    
 </style>
