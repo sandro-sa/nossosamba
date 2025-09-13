@@ -38,13 +38,11 @@
 
                     <p class="m-0 p-0" style="font-size: 0.7em;">Introdução: {{ music[0].introduction }}</p>
 
-                    <span 
-                        class="music m-0 p-0"
-                        :class="{ 'hide-acordes': hideAcordes, 'music-estilo-extra': hideAcordes }"
-                        v-html="letra(music[0].music, music[1], music[2])"
-                        >
-                        
-                    </span>
+                   <span 
+                    class="music m-0 p-0"
+                    :class="{ 'hide-acordes': hideAcordes, 'music-estilo-extra': hideAcordes }"
+                    v-html="letra(music[0].music, music[1], music[2])"
+                    ></span>
 
                     <hr>
                 </div>
@@ -213,10 +211,10 @@ const toggleAcordes = () => {
         display: none !important;
     }
 
-    /* estilo adicional aplicado quando acordes estão ocultos */
-    .music-estilo-extra {
-        font-family: "Verdana", sans-serif !important;
-        font-weight: bold !important;
+    .music-estilo-extra,
+    .music-estilo-extra * {
+    font-family: "Verdana", sans-serif !important;
+    font-weight: bold !important;
     }
     
 </style>
