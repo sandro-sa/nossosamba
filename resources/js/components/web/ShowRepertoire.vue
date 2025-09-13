@@ -9,7 +9,7 @@
             <button @click="toggleAcordes" class="btn btn-dark btn-sm mt-2 me-2"> 
 
                 {{ acordesVisiveis ? 'Mostrar' : 'Ocultar' }}   <i class="bi bi-music-note-list"></i>
-                
+
             </button>
 
            <button @click="hideAcordes = !hideAcordes" class="btn btn-dark btn-sm mt-2">
@@ -210,13 +210,13 @@ const toggleAcordes = () => {
     }
     /* quando acordes estão ocultos */
     .hide-acordes .acorde {
-    display: none !important;
+        display: none !important;
     }
 
     /* estilo adicional aplicado quando acordes estão ocultos */
     .music-estilo-extra {
-        font-family: "Verdana", sans-serif;
-        font-weight: bold;  
+        font-family: "Verdana", sans-serif !important;
+        font-weight: bold !important;
     }
     
 </style>
