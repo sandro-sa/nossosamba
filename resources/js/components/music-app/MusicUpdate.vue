@@ -332,7 +332,10 @@ const processarTexto = (htmlContent) => {
 
 
 const adicionarClasseAcorde = (texto) => {
-
+	// texto = texto.replaceAll('style="color: green; background-color: rgb(255, 255, 255);"', '');
+	// texto = texto.replace(/<\/strong/g, '');
+	// texto = texto.replace(/<strong/g, '');
+	texto = texto.replace(/<br/g, '');
 	texto = texto.replace(/<\/span/g, '');
 	texto = texto.replace(/<span /g, '');
 	texto = texto.replace(/>/g, '');
