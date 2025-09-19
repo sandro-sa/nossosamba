@@ -53,6 +53,15 @@
 			</div> 
             <div class="col-12">
                 <h2 class="text-start mt-3">{{singer.singer_name}}</h2>
+
+            <input
+                type="text"
+                class="form-control mb-3"
+                placeholder="Pesquisar música por nome..."
+                v-model="searchMusicQuery"
+            />
+
+
             	<table  v-if="musics" class="table table-bordered table-light table-hover">
 					<thead>
 						<tr>
@@ -64,7 +73,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<template v-for=" music in musics" :key="music.id">
+						<template v-for="music in filteredMusics" :key="music.id">
 						<tr >
 						<th scope="row">{{ music['id'] }}</th>
 						<td>{{ music['music_name'] }}</td>
@@ -85,7 +94,7 @@
 </template>
   
 <script setup>
-import {onMounted, ref,getCurrentInstance } from 'vue';
+import {onMounted, ref,getCurrentInstance, computed } from 'vue';
 import urls from '@/utils/urls';
 import { useSinger } from '@/store/singer.js';
 import{ catchDefault } from '@/utils/messagesCatch';
@@ -93,6 +102,7 @@ const props = defineProps(['token_crsf','singer']);
 const urlSingerMusics = urls.api+'singer_musics/'+props.singer.id;
 const urlMusic = urls.api+'music/';
 const singerStore = useSinger();
+const searchMusicQuery = ref('');
 const musics = ref(false);
 const chords = ref(false);
 const music = ref("");
@@ -226,6 +236,19 @@ const execute = (async () => {
     })
     .finally(() => isLoading.value = false);
 });
+
+const filteredMusics = computed(() => {
+    if (!musics.value) return [];
+
+    const query = searchMusicQuery.value.toLowerCase().trim();
+    if (!query) return musics.value;
+
+    return musics.value.filter(music =>
+        music.music_name.toLowerCase().includes(query)
+    );
+});
+
+
 
 const returnCath = ((e) => {
 	const retornCatch = catchDefault(e);
