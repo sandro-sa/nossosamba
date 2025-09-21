@@ -313,8 +313,6 @@ const submitNewMusicRepertoire = (() => {
         tom:  tom || 0,
     }
 
-    console.log(fields)
-    
     return rhythmStore.insert( `${urls.api}repertoires/${repertoireId.value}/musics`, fields, config)
     .then((response) => {
         if(response.request.status === 200 || response.request.status === 201 ){
@@ -335,7 +333,6 @@ const getRepertorie = (async () => {
     return await rhythmStore.get(api_repertoire, config)
     .then( response => {
         repertoires.value = response.data.data;
-        console.log( repertoires.value)
     })
     .catch((e) => {
         console.error("Erro: ",e)

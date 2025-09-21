@@ -109,7 +109,7 @@ class ShowMusicController extends Controller
        
        $listaDeTons = json_encode($tons);
        $listaDeAcordeParaMudarTom = json_encode($listaDeAcordeParaMudarTom);
-     //  dd($listaDeAcordeParaMudarTom);
+       
         $music->load(['tone','singer','rhythm']);
         return view('web.show-music',[
             'music' => $music,
@@ -223,12 +223,21 @@ class ShowMusicController extends Controller
     }
     private function retornaNovoTom($tom, $arrayDeTons, $novaPosicao){
 
-        foreach($arrayDeTons as $key => $value){
-            if($tom == $key){
-                return $value;
+    
+        //dd($tom, $arrayDeTons, $novaPosicao);
+        // foreach($arrayDeTons as $key => $value){
+        //     if($tom == $key){
+        //         dd($tom, $key);
+        //         return $value;
+        //     }
+        // }
+
+        foreach ($arrayDeTons as $key => $value) {
+            if ($tom == substr($key, 0, 2)) {
+                return substr($value, 0, 2);
             }
         }
-        
+
         if(array_key_exists($tom, $this->escalaMaior )){
             foreach($this->escalaMaior as $key => $chave){
                 if($novaPosicao == $chave){
@@ -239,6 +248,7 @@ class ShowMusicController extends Controller
         }
 
         if(array_key_exists($tom, $this->escalaMenor )){
+            dd("ok");
             foreach($this->escalaMaior as $key => $chave){
                 if($novaPosicao == $chave){
                     return $key;
